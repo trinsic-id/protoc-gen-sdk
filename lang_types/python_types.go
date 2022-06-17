@@ -19,11 +19,11 @@ func PythonMessageType(entity EntityWithParent) string {
 	return fmt.Sprintf("%s", strings.Join(names, "."))
 }
 
-func PythonMethodParamType(method pgs.Method) string {
+func MethodParamType(method pgs.Method) string {
 	return pythonMethodType(method.Input(), method.ClientStreaming())
 }
 
-func PythonMethodReturnType(method pgs.Method) string {
+func MethodReturnType(method pgs.Method) string {
 	return pythonMethodType(method.Output(), method.ServerStreaming())
 }
 
