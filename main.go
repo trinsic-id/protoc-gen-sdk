@@ -37,11 +37,21 @@ func trinsicPython() *trinsicModule {
 	}
 }
 
-func trinsicGolang() *trinsicModule {
+func trinsicGolangInterface() *trinsicModule {
 	funcs := getTemplateFuncs()
 	return &trinsicModule{
 		ModuleBase: &pgs.ModuleBase{},
-		serviceTpl: template.Must(template.New("golangService").Funcs(funcs).Parse(lang_types.GoServiceTpl)),
+		serviceTpl: template.Must(template.New("golangServiceInterface").Funcs(funcs).Parse(lang_types.GoServiceInterfaceTpl)),
+		fileExt:    "go",
+		targetName: "golang_path",
+	}
+}
+
+func trinsicGolangImplementation() *trinsicModule {
+	funcs := getTemplateFuncs()
+	return &trinsicModule{
+		ModuleBase: &pgs.ModuleBase{},
+		serviceTpl: template.Must(template.New("golangServiceImplementation").Funcs(funcs).Parse(lang_types.GoServiceImplTpl)),
 		fileExt:    "go",
 		targetName: "golang_path",
 	}
@@ -58,6 +68,9 @@ func getTemplateFuncs() map[string]interface{} {
 		"PythonMethodReturnType": lang_types.PythonMethodReturnType,
 		"GolangDocComment":       lang_types.GoDocComment,
 		"GolangMethodReturnType": lang_types.GoMethodReturnType,
+		"GolangMethodParamType":  lang_types.GoMethodParamType,
+		"GolangStructPointer":    lang_types.GoStructPointer,
+		"GolangStructPointerVar": lang_types.GolangStructPointerVar,
 	}
 	return funcs
 }
@@ -107,7 +120,7 @@ func (t *trinsicSdk) Module() *trinsicModule {
 
 func (m *trinsicModule) generateServices(f pgs.File) {
 	baseName := f.InputPath().BaseName()
-	templateFile := baseName + "_service.template_" + m.fileExt
+	templateFile := baseName + m.serviceTpl.Name() + "_service.template_" + m.fileExt
 
 	var sdkInterface TrinsicSdk = &trinsicSdk{
 		file:   f,
@@ -120,6 +133,8 @@ func main() {
 	pgs.Init(pgs.DebugEnv("DEBUG")).
 		RegisterModule(trinsicDart()).
 		RegisterModule(trinsicPython()).
+		RegisterModule(trinsicGolangInterface()).
+		RegisterModule(trinsicGolangImplementation()).
 		RegisterPostProcessor(applyTemplateFiles()).
 		Render()
 }
