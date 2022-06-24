@@ -80,27 +80,32 @@ func trinsicTypescript() *trinsicModule {
 		serviceTpl: template.Must(template.New("typescriptService").Funcs(funcs).Parse(lang_types.TypescriptServiceTpl)),
 		fileExt:    "ts",
 		targetName: "typescript_path",
+		fileSuffix: "Service",
 	}
 }
 
 func getTemplateFuncs() map[string]interface{} {
 	funcs := map[string]interface{}{
-		"MethodParamType":        lang_types.MethodParamType,
-		"MethodIsStreaming":      lang_types.MethodIsStreaming,
-		"DartMethodReturnType":   lang_types.DartMethodReturnType,
-		"DartDocComment":         lang_types.DartEntityDocComment,
-		"DartAsync":              lang_types.DartAsync,
-		"DartAwait":              lang_types.DartAwait,
-		"PythonDocComment":       lang_types.PythonDocComment,
-		"PythonMethodReturnType": lang_types.PythonMethodReturnType,
-		"GolangDocComment":       lang_types.GoDocComment,
-		"GolangMethodReturnType": lang_types.GoMethodReturnType,
-		"GolangMethodParamType":  lang_types.GoMethodParamType,
-		"GolangStructPointer":    lang_types.GoStructPointer,
-		"GolangStructPointerVar": lang_types.GolangStructPointerVar,
-		"DotnetMethodReturnType": lang_types.DotnetMethodReturnType,
-		"DotnetDocComment":       lang_types.DotnetEntityDocComment,
-		"DotnetMethodParamType":  lang_types.DotnetMethodParamType,
+		"MethodParamType":            lang_types.MethodParamType,
+		"MethodIsStreaming":          lang_types.MethodIsStreaming,
+		"DartMethodReturnType":       lang_types.DartMethodReturnType,
+		"DartDocComment":             lang_types.DartEntityDocComment,
+		"DartAsync":                  lang_types.DartAsync,
+		"DartAwait":                  lang_types.DartAwait,
+		"PythonDocComment":           lang_types.PythonDocComment,
+		"PythonMethodReturnType":     lang_types.PythonMethodReturnType,
+		"GolangDocComment":           lang_types.GoDocComment,
+		"GolangMethodReturnType":     lang_types.GoMethodReturnType,
+		"GolangMethodParamType":      lang_types.GoMethodParamType,
+		"GolangStructPointer":        lang_types.GoStructPointer,
+		"GolangStructPointerVar":     lang_types.GolangStructPointerVar,
+		"DotnetMethodReturnType":     lang_types.DotnetMethodReturnType,
+		"DotnetDocComment":           lang_types.DotnetEntityDocComment,
+		"DotnetMethodParamType":      lang_types.DotnetMethodParamType,
+		"TypescriptMethodReturnType": lang_types.TypescriptMethodReturnType,
+		"TypescriptEntityDocComment": lang_types.TypescriptEntityDocComment,
+		"TypescriptAsync":            lang_types.TypescriptAsync,
+		"TypescriptAwait":            lang_types.TypescriptAwait,
 	}
 	return funcs
 }
@@ -166,6 +171,7 @@ func main() {
 		RegisterModule(trinsicGolangInterface()).
 		RegisterModule(trinsicGolangImplementation()).
 		RegisterModule(trinsicDotnet()).
+		RegisterModule(trinsicTypescript()).
 		RegisterPostProcessor(applyTemplateFiles()).
 		Render()
 }
