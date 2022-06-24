@@ -23,7 +23,7 @@ func TypescriptMethodReturnType(method pgs.Method) string {
 	return TypescriptMethodType(method.Output(), method.ServerStreaming())
 }
 
-func TypescriptEntityDocComment(entity pgs.Entity) string {
+func TypescriptDocComment(entity pgs.Entity) string {
 	commentLines := deleteEmpty(strings.Split(entity.SourceCodeInfo().LeadingComments(), "\n"))
 	if len(commentLines) == 0 {
 		return ""

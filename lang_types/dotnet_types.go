@@ -27,7 +27,7 @@ func DotnetMethodReturnType(method pgs.Method) string {
 	return DotnetMethodType(method.Output(), method.ServerStreaming())
 }
 
-func DotnetEntityDocComment(entity pgs.Entity) string {
+func DotnetDocComment(entity pgs.Entity) string {
 	commentLines := deleteEmpty(strings.Split(entity.SourceCodeInfo().LeadingComments(), "\n"))
 	if len(commentLines) == 0 {
 		return ""

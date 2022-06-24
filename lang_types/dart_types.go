@@ -27,7 +27,7 @@ func DartMethodReturnType(method pgs.Method) string {
 	return DartMethodType(method.Output(), method.ServerStreaming())
 }
 
-func DartEntityDocComment(entity pgs.Entity) string {
+func DartDocComment(entity pgs.Entity) string {
 	commentLines := deleteEmpty(strings.Split(entity.SourceCodeInfo().LeadingComments(), "\n"))
 	if len(commentLines) == 0 {
 		return ""

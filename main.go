@@ -84,12 +84,34 @@ func trinsicTypescript() *trinsicModule {
 	}
 }
 
+func trinsicJava() *trinsicModule {
+	funcs := getTemplateFuncs()
+	return &trinsicModule{
+		ModuleBase: &pgs.ModuleBase{},
+		serviceTpl: template.Must(template.New("javaService").Funcs(funcs).Parse(lang_types.JavaServiceTpl)),
+		fileExt:    "java",
+		targetName: "javakotlin_path",
+		fileSuffix: "Service",
+	}
+}
+
+func trinsicKotlin() *trinsicModule {
+	funcs := getTemplateFuncs()
+	return &trinsicModule{
+		ModuleBase: &pgs.ModuleBase{},
+		serviceTpl: template.Must(template.New("kotlinService").Funcs(funcs).Parse(lang_types.KotlinServiceTpl)),
+		fileExt:    "kt",
+		targetName: "javakotlin_path",
+		fileSuffix: "ServiceKt",
+	}
+}
+
 func getTemplateFuncs() map[string]interface{} {
 	funcs := map[string]interface{}{
 		"MethodParamType":            lang_types.MethodParamType,
 		"MethodIsStreaming":          lang_types.MethodIsStreaming,
 		"DartMethodReturnType":       lang_types.DartMethodReturnType,
-		"DartDocComment":             lang_types.DartEntityDocComment,
+		"DartDocComment":             lang_types.DartDocComment,
 		"DartAsync":                  lang_types.DartAsync,
 		"DartAwait":                  lang_types.DartAwait,
 		"PythonDocComment":           lang_types.PythonDocComment,
@@ -100,12 +122,21 @@ func getTemplateFuncs() map[string]interface{} {
 		"GolangStructPointer":        lang_types.GoStructPointer,
 		"GolangStructPointerVar":     lang_types.GolangStructPointerVar,
 		"DotnetMethodReturnType":     lang_types.DotnetMethodReturnType,
-		"DotnetDocComment":           lang_types.DotnetEntityDocComment,
+		"DotnetDocComment":           lang_types.DotnetDocComment,
 		"DotnetMethodParamType":      lang_types.DotnetMethodParamType,
 		"TypescriptMethodReturnType": lang_types.TypescriptMethodReturnType,
-		"TypescriptEntityDocComment": lang_types.TypescriptEntityDocComment,
+		"TypescriptDocComment":       lang_types.TypescriptDocComment,
 		"TypescriptAsync":            lang_types.TypescriptAsync,
 		"TypescriptAwait":            lang_types.TypescriptAwait,
+		"JavaMethodReturnType":       lang_types.JavaMethodReturnType,
+		"JavaDocComment":             lang_types.JavaDocComment,
+		"JavaAsync":                  lang_types.JavaAsync,
+		"JavaAwait":                  lang_types.JavaAwait,
+		"JavaMethodParamType":        lang_types.JavaMethodParamType,
+		"KotlinMethodReturnType":     lang_types.KotlinMethodReturnType,
+		"KotlinDocComment":           lang_types.KotlinDocComment,
+		"KotlinAsync":                lang_types.KotlinAsync,
+		"KotlinAwait":                lang_types.KotlinAwait,
 	}
 	return funcs
 }
@@ -172,6 +203,8 @@ func main() {
 		RegisterModule(trinsicGolangImplementation()).
 		RegisterModule(trinsicDotnet()).
 		RegisterModule(trinsicTypescript()).
+		RegisterModule(trinsicJava()).
+		RegisterModule(trinsicKotlin()).
 		RegisterPostProcessor(applyTemplateFiles()).
 		Render()
 }
