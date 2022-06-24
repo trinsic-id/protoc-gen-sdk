@@ -2,9 +2,9 @@ Set-Location $PSScriptRoot
 go build
 
 $RenamePairs = "trust-registry=trustregistry,universal-wallet=wallet,verifiable-credentials=credential,templates=template"
-$DartPath = "python_path=C?/work/sdk/python/trinsic"
-$PythonPath ="dart_path=C?/work/sdk/dart/lib/src"
-$GolangPath = "golang_path=C?/work/sdk/go/services"
+$DartPath = "python_path=../sdk/python/trinsic"
+$PythonPath ="dart_path=../sdk/dart/lib/src"
+$GolangPath = "golang_path=../sdk/go/services"
 
 protoc --proto_path=..\sdk\proto `
        --trinsic-sdk_out="${RenamePairs},${DartPath},${PythonPath},${GolangPath}:" `
