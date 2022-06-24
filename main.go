@@ -73,6 +73,16 @@ func trinsicDotnet() *trinsicModule {
 	}
 }
 
+func trinsicTypescript() *trinsicModule {
+	funcs := getTemplateFuncs()
+	return &trinsicModule{
+		ModuleBase: &pgs.ModuleBase{},
+		serviceTpl: template.Must(template.New("typescriptService").Funcs(funcs).Parse(lang_types.TypescriptServiceTpl)),
+		fileExt:    "ts",
+		targetName: "typescript_path",
+	}
+}
+
 func getTemplateFuncs() map[string]interface{} {
 	funcs := map[string]interface{}{
 		"MethodParamType":        lang_types.MethodParamType,
