@@ -106,6 +106,17 @@ func trinsicKotlin() *trinsicModule {
 	}
 }
 
+func trinsicRuby() *trinsicModule {
+	funcs := getTemplateFuncs()
+	return &trinsicModule{
+		ModuleBase: &pgs.ModuleBase{},
+		serviceTpl: template.Must(template.New("rubyService").Funcs(funcs).Parse(lang_types.RubyServiceTpl)),
+		fileExt:    "rb",
+		targetName: "ruby_path",
+		fileSuffix: "_service",
+	}
+}
+
 func getTemplateFuncs() map[string]interface{} {
 	funcs := map[string]interface{}{
 		"MethodParamType":     lang_types.MethodParamType,
@@ -135,11 +146,14 @@ func getTemplateFuncs() map[string]interface{} {
 		"JavaDocComment":             lang_types.JavaDocComment,
 		"JavaAsync":                  lang_types.JavaAsync,
 		"JavaAwait":                  lang_types.JavaAwait,
+		"JavaStreamStub":             lang_types.JavaStreamStub,
 		"JavaMethodParamType":        lang_types.JavaMethodParamType,
 		"KotlinMethodReturnType":     lang_types.KotlinMethodReturnType,
 		"KotlinDocComment":           lang_types.KotlinDocComment,
 		"KotlinAsync":                lang_types.KotlinAsync,
 		"KotlinAwait":                lang_types.KotlinAwait,
+		"RubyMethodReturnType":       lang_types.RubyMethodReturnType,
+		"RubyDocComment":             lang_types.RubyDocComment,
 	}
 	return funcs
 }
@@ -210,6 +224,7 @@ func main() {
 		RegisterModule(trinsicTypescript()).
 		RegisterModule(trinsicJava()).
 		RegisterModule(trinsicKotlin()).
+		RegisterModule(trinsicRuby()).
 		RegisterPostProcessor(applyTemplateFiles()).
 		Render()
 }
