@@ -108,8 +108,11 @@ func trinsicKotlin() *trinsicModule {
 
 func getTemplateFuncs() map[string]interface{} {
 	funcs := map[string]interface{}{
-		"MethodParamType":            lang_types.MethodParamType,
-		"MethodIsStreaming":          lang_types.MethodIsStreaming,
+		"MethodParamType":     lang_types.MethodParamType,
+		"MethodIsStreaming":   lang_types.MethodIsStreaming,
+		"SdkTemplateGenerate": lang_types.SdkTemplateGenerate,
+		"SdkAnonymous":        lang_types.SdkAnonymous,
+
 		"DartMethodReturnType":       lang_types.DartMethodReturnType,
 		"DartDocComment":             lang_types.DartDocComment,
 		"DartAsync":                  lang_types.DartAsync,
@@ -192,7 +195,9 @@ func (m *trinsicModule) generateServices(f pgs.File) {
 		file:   f,
 		module: m,
 	}
-	m.AddGeneratorTemplateFile(templateFile, m.serviceTpl, sdkInterface)
+	if len(f.Services()) > 0 {
+		m.AddGeneratorTemplateFile(templateFile, m.serviceTpl, sdkInterface)
+	}
 }
 
 func main() {
