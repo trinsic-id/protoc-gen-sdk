@@ -73,24 +73,87 @@ func trinsicDotnet() *trinsicModule {
 	}
 }
 
+func trinsicTypescript() *trinsicModule {
+	funcs := getTemplateFuncs()
+	return &trinsicModule{
+		ModuleBase: &pgs.ModuleBase{},
+		serviceTpl: template.Must(template.New("typescriptService").Funcs(funcs).Parse(lang_types.TypescriptServiceTpl)),
+		fileExt:    "ts",
+		targetName: "typescript_path",
+		fileSuffix: "Service",
+	}
+}
+
+func trinsicJava() *trinsicModule {
+	funcs := getTemplateFuncs()
+	return &trinsicModule{
+		ModuleBase: &pgs.ModuleBase{},
+		serviceTpl: template.Must(template.New("javaService").Funcs(funcs).Parse(lang_types.JavaServiceTpl)),
+		fileExt:    "java",
+		targetName: "javakotlin_path",
+		fileSuffix: "Service",
+	}
+}
+
+func trinsicKotlin() *trinsicModule {
+	funcs := getTemplateFuncs()
+	return &trinsicModule{
+		ModuleBase: &pgs.ModuleBase{},
+		serviceTpl: template.Must(template.New("kotlinService").Funcs(funcs).Parse(lang_types.KotlinServiceTpl)),
+		fileExt:    "kt",
+		targetName: "javakotlin_path",
+		fileSuffix: "ServiceKt",
+	}
+}
+
+func trinsicRuby() *trinsicModule {
+	funcs := getTemplateFuncs()
+	return &trinsicModule{
+		ModuleBase: &pgs.ModuleBase{},
+		serviceTpl: template.Must(template.New("rubyService").Funcs(funcs).Parse(lang_types.RubyServiceTpl)),
+		fileExt:    "rb",
+		targetName: "ruby_path",
+		fileSuffix: "_service",
+	}
+}
+
 func getTemplateFuncs() map[string]interface{} {
 	funcs := map[string]interface{}{
-		"MethodParamType":        lang_types.MethodParamType,
-		"MethodIsStreaming":      lang_types.MethodIsStreaming,
-		"DartMethodReturnType":   lang_types.DartMethodReturnType,
-		"DartDocComment":         lang_types.DartEntityDocComment,
-		"DartAsync":              lang_types.DartAsync,
-		"DartAwait":              lang_types.DartAwait,
-		"PythonDocComment":       lang_types.PythonDocComment,
-		"PythonMethodReturnType": lang_types.PythonMethodReturnType,
-		"GolangDocComment":       lang_types.GoDocComment,
-		"GolangMethodReturnType": lang_types.GoMethodReturnType,
-		"GolangMethodParamType":  lang_types.GoMethodParamType,
-		"GolangStructPointer":    lang_types.GoStructPointer,
-		"GolangStructPointerVar": lang_types.GolangStructPointerVar,
-		"DotnetMethodReturnType": lang_types.DotnetMethodReturnType,
-		"DotnetDocComment":       lang_types.DotnetEntityDocComment,
-		"DotnetMethodParamType":  lang_types.DotnetMethodParamType,
+		"MethodParamType":     lang_types.MethodParamType,
+		"MethodIsStreaming":   lang_types.MethodIsStreaming,
+		"SdkTemplateGenerate": lang_types.SdkTemplateGenerate,
+		"SdkAnonymous":        lang_types.SdkAnonymous,
+
+		"DartMethodReturnType":       lang_types.DartMethodReturnType,
+		"DartDocComment":             lang_types.DartDocComment,
+		"DartAsync":                  lang_types.DartAsync,
+		"DartAwait":                  lang_types.DartAwait,
+		"PythonDocComment":           lang_types.PythonDocComment,
+		"PythonMethodReturnType":     lang_types.PythonMethodReturnType,
+		"GolangDocComment":           lang_types.GoDocComment,
+		"GolangMethodReturnType":     lang_types.GoMethodReturnType,
+		"GolangMethodParamType":      lang_types.GoMethodParamType,
+		"GolangStructPointer":        lang_types.GoStructPointer,
+		"GolangStructPointerVar":     lang_types.GolangStructPointerVar,
+		"DotnetMethodReturnType":     lang_types.DotnetMethodReturnType,
+		"DotnetDocComment":           lang_types.DotnetDocComment,
+		"DotnetMethodParamType":      lang_types.DotnetMethodParamType,
+		"TypescriptMethodReturnType": lang_types.TypescriptMethodReturnType,
+		"TypescriptDocComment":       lang_types.TypescriptDocComment,
+		"TypescriptAsync":            lang_types.TypescriptAsync,
+		"TypescriptAwait":            lang_types.TypescriptAwait,
+		"JavaMethodReturnType":       lang_types.JavaMethodReturnType,
+		"JavaDocComment":             lang_types.JavaDocComment,
+		"JavaAsync":                  lang_types.JavaAsync,
+		"JavaAwait":                  lang_types.JavaAwait,
+		"JavaStreamStub":             lang_types.JavaStreamStub,
+		"JavaMethodParamType":        lang_types.JavaMethodParamType,
+		"KotlinMethodReturnType":     lang_types.KotlinMethodReturnType,
+		"KotlinDocComment":           lang_types.KotlinDocComment,
+		"KotlinAsync":                lang_types.KotlinAsync,
+		"KotlinAwait":                lang_types.KotlinAwait,
+		"RubyMethodReturnType":       lang_types.RubyMethodReturnType,
+		"RubyDocComment":             lang_types.RubyDocComment,
 	}
 	return funcs
 }
@@ -146,7 +209,9 @@ func (m *trinsicModule) generateServices(f pgs.File) {
 		file:   f,
 		module: m,
 	}
-	m.AddGeneratorTemplateFile(templateFile, m.serviceTpl, sdkInterface)
+	if len(f.Services()) > 0 {
+		m.AddGeneratorTemplateFile(templateFile, m.serviceTpl, sdkInterface)
+	}
 }
 
 func main() {
@@ -156,6 +221,10 @@ func main() {
 		RegisterModule(trinsicGolangInterface()).
 		RegisterModule(trinsicGolangImplementation()).
 		RegisterModule(trinsicDotnet()).
+		RegisterModule(trinsicTypescript()).
+		RegisterModule(trinsicJava()).
+		RegisterModule(trinsicKotlin()).
+		RegisterModule(trinsicRuby()).
 		RegisterPostProcessor(applyTemplateFiles()).
 		Render()
 }
