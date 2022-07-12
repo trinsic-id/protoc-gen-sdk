@@ -39,3 +39,14 @@ func SdkAnonymous(method pgs.Method) bool {
 	}
 	return false
 }
+
+func BuildMetadata(method pgs.Method, async bool) string {
+	s := "(request)"
+	if SdkAnonymous(method) {
+		s = "()"
+	}
+	if async {
+		return "await BuildMetadataAsync" + s
+	}
+	return "BuildMetadata" + s
+}
