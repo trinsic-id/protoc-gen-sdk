@@ -15,8 +15,8 @@ github.com/lyft/protoc-gen-star/lang/go
 ## explicit; go 1.13
 github.com/spf13/afero
 github.com/spf13/afero/mem
-# golang.org/x/text v0.3.2
-## explicit
+# golang.org/x/text v0.3.7
+## explicit; go 1.17
 golang.org/x/text/cases
 golang.org/x/text/internal
 golang.org/x/text/internal/language
