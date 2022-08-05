@@ -18,9 +18,3 @@ See the `build_test.ps1` script for an example of how to build and run the plugi
   * Update the corresponding template `const [LANG NAME]ServiceTpl = ...`
   * Create a `trinsicModule` factory function in `main.go` `trinsic[LANG NAME]() *trinsicModule`
   * Register the factory function in `main.go` `func main`
-
-### TODO 
-- [ ] Skipping certain methods `sdk_template.ignore` proto option
-- [ ] Skip metadata on some calls: `sdk_template.anonymous` proto option
-- [ ] Ensure it registers in the path correctly, possibly rename from `protoc-gen-sdk` to `protoc-gen-trinsic-sdk`
-- [ ] All languages that Trinsic supports
