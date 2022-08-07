@@ -11,7 +11,7 @@ on:
 jobs:
   build-golang-plugin:
     name: Build, Test
-    runs-on: ${{ matrix.os-artifact[0] }}
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
