@@ -27,5 +27,6 @@ jobs:
       - name: Build Golang
         run: |
           go version
+          go mod vendor
           go build
         working-directory: ./
