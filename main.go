@@ -117,6 +117,17 @@ func trinsicRuby() *trinsicModule {
 	}
 }
 
+func trinsicSwift() *trinsicModule {
+	funcs := getTemplateFuncs()
+	return &trinsicModule{
+		ModuleBase: &pgs.ModuleBase{},
+		serviceTpl: template.Must(template.New("swiftService").Funcs(funcs).Parse(lang_types.SwiftServiceTpl)),
+		fileExt:    "swift",
+		targetName: "swift_path",
+		fileSuffix: "Service",
+	}
+}
+
 func getTemplateFuncs() map[string]interface{} {
 	funcs := map[string]interface{}{
 		"MethodParamType":     lang_types.MethodParamType,
@@ -147,18 +158,26 @@ func getTemplateFuncs() map[string]interface{} {
 		"TypescriptAsync":            lang_types.TypescriptAsync,
 		"TypescriptAwait":            lang_types.TypescriptAwait,
 		"TypescriptBuildMetadata":    lang_types.TypescriptBuildMetadata,
-		"JavaMethodReturnType":       lang_types.JavaMethodReturnType,
-		"JavaDocComment":             lang_types.JavaDocComment,
-		"JavaAsync":                  lang_types.JavaAsync,
-		"JavaAwait":                  lang_types.JavaAwait,
-		"JavaStreamStub":             lang_types.JavaStreamStub,
-		"JavaMethodParamType":        lang_types.JavaMethodParamType,
-		"KotlinMethodReturnType":     lang_types.KotlinMethodReturnType,
-		"KotlinDocComment":           lang_types.KotlinDocComment,
-		"KotlinAsync":                lang_types.KotlinAsync,
-		"KotlinAwait":                lang_types.KotlinAwait,
-		"RubyMethodReturnType":       lang_types.RubyMethodReturnType,
-		"RubyDocComment":             lang_types.RubyDocComment,
+
+		"SwiftMethodReturnType": lang_types.SwiftMethodReturnType,
+		"SwiftMethodParamType":  lang_types.SwiftMethodParamType,
+		"SwiftDocComment":       lang_types.SwiftDocComment,
+		"SwiftAsync":            lang_types.SwiftAsync,
+		"SwiftAwait":            lang_types.SwiftAwait,
+		"SwiftBuildMetadata":    lang_types.SwiftBuildMetadata,
+
+		"JavaMethodReturnType":   lang_types.JavaMethodReturnType,
+		"JavaDocComment":         lang_types.JavaDocComment,
+		"JavaAsync":              lang_types.JavaAsync,
+		"JavaAwait":              lang_types.JavaAwait,
+		"JavaStreamStub":         lang_types.JavaStreamStub,
+		"JavaMethodParamType":    lang_types.JavaMethodParamType,
+		"KotlinMethodReturnType": lang_types.KotlinMethodReturnType,
+		"KotlinDocComment":       lang_types.KotlinDocComment,
+		"KotlinAsync":            lang_types.KotlinAsync,
+		"KotlinAwait":            lang_types.KotlinAwait,
+		"RubyMethodReturnType":   lang_types.RubyMethodReturnType,
+		"RubyDocComment":         lang_types.RubyDocComment,
 	}
 	return funcs
 }
@@ -227,6 +246,7 @@ func main() {
 		RegisterModule(trinsicGolangImplementation()).
 		RegisterModule(trinsicDotnet()).
 		RegisterModule(trinsicTypescript()).
+		RegisterModule(trinsicSwift()).
 		RegisterModule(trinsicJava()).
 		RegisterModule(trinsicKotlin()).
 		RegisterModule(trinsicRuby()).

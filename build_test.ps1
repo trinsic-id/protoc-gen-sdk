@@ -13,9 +13,10 @@ $GolangPath = "golang_path=../sdk/go/services"
 $TypescriptPath = "typescript_path=../sdk/web/src"
 $JavaKotlinPath = "javakotlin_path=../sdk/java/src/main/java/trinsic/services"
 $RubyPath = "ruby_path=../sdk/ruby/lib/services"
+$SwiftPath = "swift_path=../sdk-swift/Sources/Trinsic"
 
 protoc --proto_path=..\sdk\proto `
-       --trinsic-sdk_out="${RenamePairs},${DartPath},${PythonPath},${GolangPath},${TypescriptPath},${DotnetPath},${JavaKotlinPath},${RubyPath}:" `
+       --trinsic-sdk_out="${RenamePairs},${DartPath},${PythonPath},${GolangPath},${TypescriptPath},${DotnetPath},${JavaKotlinPath},${RubyPath},${SwiftPath}:" `
        --plugin="protoc-gen-trinsic-sdk=${PSScriptRoot}/protoc-gen-sdk.exe" `
         ..\sdk\proto\services\account\v1\*.proto `
         ..\sdk\proto\services\options\*.proto `
