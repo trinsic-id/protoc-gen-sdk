@@ -1,0 +1,67 @@
+name: 'Generate the SDK Wrappers'
+description: 'Generate the SDK wrapper code for every language'
+inputs:
+  protoPath:
+    description: 'Base path for proto files to compile'
+    required: false
+    default: '../sdk/proto'
+  renamePairs:
+    description: 'Mapping pairs for folder names'
+    required: false
+    default: 'trust-registry=trustregistry,universal-wallet=wallet,verifiable-credentials=credential,templates=template'
+  pythonPath:
+    description: 'path for python output'
+    required: false
+    default: '../sdk/python/trinsic'
+  dotnetPath:
+    description: 'path for .NET output'
+    required: false
+    default: '../sdk/dotnet/Trinsic'
+  dartPath:
+    description: 'path for dart output'
+    required: false
+    default: '../sdk/dart/lib/src'
+  golangPath:
+    description: 'path for golang output'
+    required: false
+    default: '../sdk/go/services'
+  typescriptPath:
+    description: 'path for typescript output'
+    required: false
+    default: '../sdk/web/src'
+  javaKotlinPath:
+    description: 'path for Java / Kotlin output'
+    required: false
+    default: '../sdk/java/src/main/java/trinsic/services'
+  rubyPath:
+    description: 'path for Ruby output'
+    required: false
+    default: '../sdk/ruby/lib/services'
+  swiftPath:
+    description: 'path for swift output'
+    required: false
+    default: '../sdk-swift/Sources/Trinsic'
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.18
+        cache: true
+        cache-dependency-path: go.sum
+    - id: pickvalidvalues
+      name: Pick Valid Values
+      run: |
+        "${{ github.action_path }}\action.ps1" `
+            -ProtoPath "${{ inputs.protoPath }}" `
+            -RenamePairs "${{ inputs.renamePairs }}" `
+            -PythonPath "${{ inputs.pythonPath }}" `
+            -DotnetPath "${{ inputs.dotnetPath }}" `
+            -DartPath "${{ inputs.dartPath }}" `
+            -GolangPath "${{ inputs.golangPath }}" `
+            -TypescriptPath "${{ inputs.typescriptPath }}" `
+            -JavaKotlinPath "${{ inputs.javaKotlinPath }}" `
+            -RubyPath "${{ inputs.rubyPath }}" `
+            -SwiftPath "${{ inputs.swiftPath }}"
+      shell: pwsh
