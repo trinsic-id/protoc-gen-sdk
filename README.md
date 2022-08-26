@@ -2,14 +2,19 @@
 Protobuf compiler plugin that generates [Trinsic SDK Wrappers](https://github.com/trinsic-id/sdk)
 
 ### Installation
-
-```
+* To install locally:
+```bash
 go get github.com/trinsic-id/protoc-gen-sdk
+```
+* For use as a github action:
+```yaml
+      - uses: trinsic-id/protoc-gen-sdk@v0.1
+        id: buildsdkwrappers
 ```
 
 ### Usage
 
-See the `build_test.ps1` script for an example of how to build and run the plugin, assuming that [Trinsic SDK](https://github.com/trinsic-id/sdk) is checked out into a parallel directory.
+See the `build_test.ps1` script for an example of how to build and run the plugin, assuming that [Trinsic SDK](https://github.com/trinsic-id/sdk) is checked out into a parallel directory (`../sdk`).
 * You must provide relative (or absolute) paths to the various directories to update
 * Because `protoc-gen-star`, the major library that this plugin uses, differentiates the final proto output path with `:`, you must escape the absolute windows path with a `?`, eg (`C?\work\sdk` for `C:\work\sdk`)
 * Rename pairs are there to map service/file names to the expected output. The language type with handle proper casing.
