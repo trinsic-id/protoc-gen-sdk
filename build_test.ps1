@@ -6,22 +6,23 @@ protoc --proto_path=..\sdk\proto --go_out=.\ ..\sdk\proto\services\options\*.pro
 go build
 
 $RenamePairs = "trust-registry=trustregistry,universal-wallet=wallet,verifiable-credentials=credential,templates=template"
-$PythonPath = "python_path=../sdk/python/trinsic"
-$DotnetPath = "dotnet_path=../sdk/dotnet/Trinsic"
-$DartPath ="dart_path=../sdk/dart/lib/src"
-$GolangPath = "golang_path=../sdk/go/services"
-$TypescriptPath = "typescript_path=../sdk/web/src"
-$JavaKotlinPath = "javakotlin_path=../sdk/java/src/main/java/trinsic/services"
-$RubyPath = "ruby_path=../sdk/ruby/lib/services"
-$SwiftPath = "swift_path=../sdk-swift/Sources/Trinsic"
+$PythonPath = "../sdk/python/trinsic"
+$DotnetPath = "../sdk/dotnet/Trinsic"
+$DartPath ="../sdk/dart/lib/src"
+$GolangPath = "../sdk/go/services"
+$TypescriptPath = "../sdk/web/src"
+$JavaKotlinPath = "../sdk/java/src/main/java/trinsic/services"
+$RubyPath = "../sdk/ruby/lib/services"
+$SwiftPath = "../sdk-swift/Sources/Trinsic"
 
-protoc --proto_path=..\sdk\proto `
-       --trinsic-sdk_out="${RenamePairs},${DartPath},${PythonPath},${GolangPath},${TypescriptPath},${DotnetPath},${JavaKotlinPath},${RubyPath},${SwiftPath}:" `
-       --plugin="protoc-gen-trinsic-sdk=${PSScriptRoot}/protoc-gen-sdk.exe" `
-        ..\sdk\proto\services\account\v1\*.proto `
-        ..\sdk\proto\services\options\*.proto `
-        ..\sdk\proto\services\provider\v1\*.proto `
-        ..\sdk\proto\services\trust-registry\v1\*.proto `
-        ..\sdk\proto\services\universal-wallet\v1\*.proto `
-        ..\sdk\proto\services\verifiable-credentials\v1\*.proto `
-        ..\sdk\proto\services\verifiable-credentials\templates\v1\*.proto
+.\action.ps1 `
+    -ProtoPath "..\sdk\proto" `
+    -RenamePairs $RenamePairs `
+    -PythonPath $PythonPath `
+    -DotnetPath $DotnetPath `
+    -DartPath $DartPath `
+    -GolangPath $GolangPath `
+    -TypescriptPath $TypescriptPath `
+    -JavaKotlinPath $JavaKotlinPath `
+    -RubyPath $RubyPath `
+    -SwiftPath $SwiftPath

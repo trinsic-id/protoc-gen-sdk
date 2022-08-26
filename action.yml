@@ -1,6 +1,10 @@
-name: 'Set Test Environment'
-description: 'Set Test Environment Variables for Trinsic SDK - consolidate multiple possible inputs'
+name: 'Generate the SDK Wrappers'
+description: 'Generate the SDK wrapper code for every language'
 inputs:
+  protoPath:
+    description: 'Base path for proto files to compile'
+    required: false
+    default: '../sdk/proto'
   renamePairs:
     description: 'Mapping pairs for folder names'
     required: false
@@ -48,5 +52,16 @@ runs:
         cache-dependency-path: go.sum
     - id: pickvalidvalues
       name: Pick Valid Values
-      run: action.ps1
+      run: |
+        .\action.ps1 `
+            -ProtoPath "${{ inputs.protoPath }}" `
+            -RenamePairs "${{ inputs.renamePairs }}" `
+            -PythonPath "${{ inputs.pythonPath }}" `
+            -DotnetPath "${{ inputs.dotnetPath }}" `
+            -DartPath "${{ inputs.dartPath }}" `
+            -GolangPath "${{ inputs.golangPath }}" `
+            -TypescriptPath "${{ inputs.typescriptPath }}" `
+            -JavaKotlinPath "${{ inputs.javaKotlinPath }}" `
+            -RubyPath "${{ inputs.rubyPath }}" `
+            -SwiftPath "${{ inputs.swiftPath }}"
       shell: pwsh
