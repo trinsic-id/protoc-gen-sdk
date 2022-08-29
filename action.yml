@@ -51,7 +51,7 @@ runs:
     - id: pickvalidvalues
       name: Pick Valid Values
       run: |
-        "${{ github.action_path }}\action.ps1" `
+        ${{ github.action_path }}\action.ps1 `
             -ProtoPath "${{ inputs.protoPath }}" `
             -RenamePairs "${{ inputs.renamePairs }}" `
             -PythonPath "${{ inputs.pythonPath }}" `
