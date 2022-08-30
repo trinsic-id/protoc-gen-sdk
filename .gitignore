@@ -1,3 +1,4 @@
 .idea
 protoc-gen-sdk.exe
 vendor/
+go-plugin/
