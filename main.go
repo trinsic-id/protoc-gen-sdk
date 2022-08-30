@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/trinsic-id/protoc-gen-sdk/lang_types"
+	"runtime"
 	"strings"
 	"text/template"
 
@@ -218,6 +219,10 @@ func (t *trinsicSdk) TargetPath() string {
 	targetFile := t.module.JoinPath(t.module.Parameters().StrDefault(t.module.targetName, ""), targetName+t.module.fileSuffix+"."+t.module.fileExt)
 	// Handle ":" drive on windows
 	targetFile = strings.Replace(targetFile, "?", ":", 1)
+	// prepend a "/" on linux
+	if runtime.GOOS == "linux" {
+		targetFile = "/" + targetFile
+	}
 	return targetFile
 }
 

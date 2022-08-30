@@ -44,7 +44,7 @@ func (tpp trinsicPostProcessor) Process(in []byte) ([]byte, error) {
 }
 
 func updateTargetFile(targetPath string, templateLines []string) error {
-	fmt.Fprintf(os.Stderr, "Target file: %s\n", targetPath)
+	//fmt.Fprintf(os.Stderr, "Target file: %s\n", targetPath)
 	fileBytes, err := os.ReadFile(targetPath)
 	if err != nil {
 		return err
