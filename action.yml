@@ -49,7 +49,7 @@ runs:
         repo: "trinsic-id/protoc-gen-sdk"
         workflow: "release-plugin.yml"
         path: ./
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        # github_token: ${{ secrets.GITHUB_TOKEN }}
     - name: Set up Go
       uses: actions/setup-go@v3
       with:
