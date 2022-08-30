@@ -47,7 +47,7 @@ runs:
     - uses: dawidd6/action-download-artifact@v2
       with:
         repo: "trinsic-id/protoc-gen-sdk"
-        workflow: "release-plugin.yml"
+        workflow: "build-plugin.yml"
         path: ${{ github.action_path }}
         branch: main
         # github_token: ${{ secrets.GITHUB_TOKEN }}
