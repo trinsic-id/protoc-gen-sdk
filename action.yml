@@ -40,7 +40,7 @@ inputs:
   swiftPath:
     description: 'path for swift output'
     required: false
-    default: '../sdk-swift/Sources/Trinsic'
+    default: '../sdk/swift/Sources/Trinsic'
 runs:
   using: "composite"
   steps:

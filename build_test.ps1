@@ -1,23 +1,24 @@
 Set-Location $PSScriptRoot
 
 # Compile in the `SdkTemplateOption` in `field-options.proto`
-protoc --proto_path=..\sdk\proto --go_out=.\ ..\sdk\proto\services\options\*.proto
+protoc --proto_path = ..\sdk\proto --go_out = .\ ..\sdk\proto\services\options\*.proto
 go version
 go mod vendor
-go build
+go build -o "go-plugin/protoc-gen-sdk-windows-amd64.exe"
 
+$ProtoPath = "$PSScriptRoot/../sdk/proto"
 $RenamePairs = "trust-registry=trustregistry,universal-wallet=wallet,verifiable-credentials=credential,templates=template"
-$PythonPath = "../sdk/python/trinsic"
-$DotnetPath = "../sdk/dotnet/Trinsic"
-$DartPath ="../sdk/dart/lib/src"
-$GolangPath = "../sdk/go/services"
-$TypescriptPath = "../sdk/web/src"
-$JavaKotlinPath = "../sdk/java/src/main/java/trinsic/services"
-$RubyPath = "../sdk/ruby/lib/services"
-$SwiftPath = "../sdk-swift/Sources/Trinsic"
+$PythonPath = "$PSScriptRoot/../sdk/python/trinsic"
+$DotnetPath = "$PSScriptRoot/../sdk/dotnet/Trinsic"
+$DartPath = "$PSScriptRoot/../sdk/dart/lib/src"
+$GolangPath = "$PSScriptRoot/../sdk/go/services"
+$TypescriptPath = "$PSScriptRoot/../sdk/web/src"
+$JavaKotlinPath = "$PSScriptRoot/../sdk/java/src/main/java/trinsic/services"
+$RubyPath = "$PSScriptRoot/../sdk/ruby/lib/services"
+$SwiftPath = "$PSScriptRoot/../sdk/swift/Sources/Trinsic"
 
-.\action.ps1 `
-    -ProtoPath "..\sdk\proto" `
+./action.ps1 `
+    -ProtoPath $ProtoPath `
     -RenamePairs $RenamePairs `
     -PythonPath $PythonPath `
     -DotnetPath $DotnetPath `
