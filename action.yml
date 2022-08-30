@@ -51,8 +51,11 @@ runs:
         path: ${{ github.action_path }}
         branch: main
         # github_token: ${{ secrets.GITHUB_TOKEN }}
-    - id: pickvalidvalues
-      name: Pick Valid Values
+    - shell: bash
+      run: |
+        chmod +x "${{ github.action_path }}/go-plugin/protoc-gen-sdk-linux-amd64"
+    - id: protocgensdk
+      name: Generate template code
       run: |
         ${{ github.action_path }}\action.ps1 -ProtoPath "${{ inputs.protoPath }}" -RenamePairs "${{ inputs.renamePairs }}" -PythonPath "${{ inputs.pythonPath }}" -DotnetPath "${{ inputs.dotnetPath }}" -DartPath "${{ inputs.dartPath }}" -GolangPath "${{ inputs.golangPath }}" -TypescriptPath "${{ inputs.typescriptPath }}" -JavaKotlinPath "${{ inputs.javaKotlinPath }}" -RubyPath "${{ inputs.rubyPath }}" -SwiftPath "${{ inputs.swiftPath }}"
       shell: pwsh
