@@ -11,9 +11,11 @@ param(
     [Parameter(Mandatory=$true)][string]$SwiftPath
 )
 
-Set-Location $PSScriptRoot
-
+go version
+go mod vendor
 go build
+
+Set-Location $PSScriptRoot
 
 $PROTO_DIR = Resolve-Path "$PSScriptRoot/$ProtoPath"
 
@@ -26,11 +28,12 @@ $JavaKotlinArg = "javakotlin_path=${JavaKotlinPath}"
 $RubyArg = "ruby_path=${RubyPath}"
 $SwiftArg = "swift_path=${SwiftPath}"
 
+$PluginPath = "${PSScriptRoot}/protoc-gen-sdk$(If ($IsWindows) {'.exe'} Else {''})"
 
 foreach ($Item in Get-ChildItem -Path $PROTO_DIR -Include *.proto -Recurse)
 {
     $File = $Item.FullName
-    $Expr = "protoc --plugin=protoc-gen-trinsic-sdk=${PSScriptRoot}/protoc-gen-sdk.exe --trinsic-sdk_out=${RenamePairs},${DartArg},${PythonArg},${GolangArg},${TypescriptArg},${DotnetArg},${JavaKotlinArg},${RubyArg},${SwiftArg}: -I $PROTO_DIR $File"
+    $Expr = "protoc --plugin=protoc-gen-trinsic-sdk=${PluginPath} --trinsic-sdk_out=${RenamePairs},${DartArg},${PythonArg},${GolangArg},${TypescriptArg},${DotnetArg},${JavaKotlinArg},${RubyArg},${SwiftArg}: -I $PROTO_DIR $File"
     Write-Output $Expr
     Invoke-Expression $Expr
 }
