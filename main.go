@@ -14,6 +14,7 @@ type trinsicModule struct {
 	*pgs.ModuleBase
 	ctx        pgsgo.Context
 	serviceTpl *template.Template
+	fileCase   func(pgs.Name) pgs.Name
 	fileExt    string
 	targetName string
 	fileSuffix string
@@ -24,6 +25,7 @@ func trinsicDart() *trinsicModule {
 	return &trinsicModule{
 		ModuleBase: &pgs.ModuleBase{},
 		serviceTpl: template.Must(template.New("dartService").Funcs(funcs).Parse(lang_types.DartServiceTpl)),
+		fileCase:   pgs.Name.LowerSnakeCase,
 		fileExt:    "dart",
 		targetName: "dart_path",
 		fileSuffix: "_service",
@@ -35,6 +37,7 @@ func trinsicPython() *trinsicModule {
 	return &trinsicModule{
 		ModuleBase: &pgs.ModuleBase{},
 		serviceTpl: template.Must(template.New("pythonService").Funcs(funcs).Parse(lang_types.PythonServiceTpl)),
+		fileCase:   pgs.Name.LowerSnakeCase,
 		fileExt:    "py",
 		targetName: "python_path",
 		fileSuffix: "_service",
@@ -46,6 +49,7 @@ func trinsicGolangInterface() *trinsicModule {
 	return &trinsicModule{
 		ModuleBase: &pgs.ModuleBase{},
 		serviceTpl: template.Must(template.New("golangServiceInterface").Funcs(funcs).Parse(lang_types.GoServiceInterfaceTpl)),
+		fileCase:   pgs.Name.LowerSnakeCase,
 		fileExt:    "go",
 		targetName: "golang_path",
 		fileSuffix: "_service",
@@ -57,6 +61,7 @@ func trinsicGolangImplementation() *trinsicModule {
 	return &trinsicModule{
 		ModuleBase: &pgs.ModuleBase{},
 		serviceTpl: template.Must(template.New("golangServiceImplementation").Funcs(funcs).Parse(lang_types.GoServiceImplTpl)),
+		fileCase:   pgs.Name.LowerSnakeCase,
 		fileExt:    "go",
 		targetName: "golang_path",
 		fileSuffix: "_service",
@@ -68,6 +73,7 @@ func trinsicDotnet() *trinsicModule {
 	return &trinsicModule{
 		ModuleBase: &pgs.ModuleBase{},
 		serviceTpl: template.Must(template.New("dotnetService").Funcs(funcs).Parse(lang_types.DotnetServiceTpl)),
+		fileCase:   pgs.Name.UpperCamelCase,
 		fileExt:    "cs",
 		targetName: "dotnet_path",
 		fileSuffix: "Service",
@@ -79,6 +85,7 @@ func trinsicTypescript() *trinsicModule {
 	return &trinsicModule{
 		ModuleBase: &pgs.ModuleBase{},
 		serviceTpl: template.Must(template.New("typescriptService").Funcs(funcs).Parse(lang_types.TypescriptServiceTpl)),
+		fileCase:   pgs.Name.UpperCamelCase,
 		fileExt:    "ts",
 		targetName: "typescript_path",
 		fileSuffix: "Service",
@@ -90,6 +97,7 @@ func trinsicJava() *trinsicModule {
 	return &trinsicModule{
 		ModuleBase: &pgs.ModuleBase{},
 		serviceTpl: template.Must(template.New("javaService").Funcs(funcs).Parse(lang_types.JavaServiceTpl)),
+		fileCase:   pgs.Name.UpperCamelCase,
 		fileExt:    "java",
 		targetName: "javakotlin_path",
 		fileSuffix: "Service",
@@ -101,6 +109,7 @@ func trinsicKotlin() *trinsicModule {
 	return &trinsicModule{
 		ModuleBase: &pgs.ModuleBase{},
 		serviceTpl: template.Must(template.New("kotlinService").Funcs(funcs).Parse(lang_types.KotlinServiceTpl)),
+		fileCase:   pgs.Name.UpperCamelCase,
 		fileExt:    "kt",
 		targetName: "javakotlin_path",
 		fileSuffix: "ServiceKt",
@@ -112,6 +121,7 @@ func trinsicRuby() *trinsicModule {
 	return &trinsicModule{
 		ModuleBase: &pgs.ModuleBase{},
 		serviceTpl: template.Must(template.New("rubyService").Funcs(funcs).Parse(lang_types.RubyServiceTpl)),
+		fileCase:   pgs.Name.LowerSnakeCase,
 		fileExt:    "rb",
 		targetName: "ruby_path",
 		fileSuffix: "_service",
@@ -123,6 +133,7 @@ func trinsicSwift() *trinsicModule {
 	return &trinsicModule{
 		ModuleBase: &pgs.ModuleBase{},
 		serviceTpl: template.Must(template.New("swiftService").Funcs(funcs).Parse(lang_types.SwiftServiceTpl)),
+		fileCase:   pgs.Name.UpperCamelCase,
 		fileExt:    "swift",
 		targetName: "swift_path",
 		fileSuffix: "Service",
@@ -215,14 +226,16 @@ func (t *trinsicSdk) File() pgs.File {
 func (t *trinsicSdk) TargetPath() string {
 	baseName := t.File().InputPath().BaseName()
 	// Handle argument renaming
-	targetName := t.module.Parameters().StrDefault(baseName, baseName)
-	targetFile := t.module.JoinPath(t.module.Parameters().StrDefault(t.module.targetName, ""), targetName+t.module.fileSuffix+"."+t.module.fileExt)
+	targetName := pgs.Name(t.module.Parameters().StrDefault(baseName, baseName))
+	targetFile := t.module.JoinPath(t.module.Parameters().StrDefault(t.module.targetName, ""), t.module.fileCase(targetName).String()+t.module.fileSuffix+"."+t.module.fileExt)
+
 	// Handle ":" drive on windows
 	targetFile = strings.Replace(targetFile, "?", ":", 1)
 	// prepend a "/" on linux
 	if runtime.GOOS == "linux" {
 		targetFile = "/" + targetFile
 	}
+	//fmt.Fprintln(os.Stderr, "Target file="+targetFile)
 	return targetFile
 }
 
