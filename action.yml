@@ -49,6 +49,7 @@ runs:
         repo: "trinsic-id/protoc-gen-sdk"
         workflow: "release-plugin.yml"
         path: ${{ github.action_path }}
+        branch: main
         # github_token: ${{ secrets.GITHUB_TOKEN }}
     - id: pickvalidvalues
       name: Pick Valid Values
