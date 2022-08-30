@@ -2,7 +2,8 @@ Set-Location $PSScriptRoot
 
 # Compile in the `SdkTemplateOption` in `field-options.proto`
 protoc --proto_path=..\sdk\proto --go_out=.\ ..\sdk\proto\services\options\*.proto
-
+go version
+go mod vendor
 go build
 
 $RenamePairs = "trust-registry=trustregistry,universal-wallet=wallet,verifiable-credentials=credential,templates=template"
