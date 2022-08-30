@@ -4,7 +4,7 @@ inputs:
   protoPath:
     description: 'Base path for proto files to compile'
     required: false
-    default: '../sdk/proto'
+    default: '../../../../sdk/sdk/proto'
   renamePairs:
     description: 'Mapping pairs for folder names'
     required: false
@@ -12,35 +12,35 @@ inputs:
   pythonPath:
     description: 'path for python output'
     required: false
-    default: '../sdk/python/trinsic'
+    default: '../../../../sdk/sdk/python/trinsic'
   dotnetPath:
     description: 'path for .NET output'
     required: false
-    default: '../sdk/dotnet/Trinsic'
+    default: '../../../../sdk/sdk/dotnet/Trinsic'
   dartPath:
     description: 'path for dart output'
     required: false
-    default: '../sdk/dart/lib/src'
+    default: '../../../../sdk/sdk/dart/lib/src'
   golangPath:
     description: 'path for golang output'
     required: false
-    default: '../sdk/go/services'
+    default: '../../../../sdk/sdk/go/services'
   typescriptPath:
     description: 'path for typescript output'
     required: false
-    default: '../sdk/web/src'
+    default: '../../../../sdk/sdk/web/src'
   javaKotlinPath:
     description: 'path for Java / Kotlin output'
     required: false
-    default: '../sdk/java/src/main/java/trinsic/services'
+    default: '../../../../sdk/sdk/java/src/main/java/trinsic/services'
   rubyPath:
     description: 'path for Ruby output'
     required: false
-    default: '../sdk/ruby/lib/services'
+    default: '../../../../sdk/sdk/ruby/lib/services'
   swiftPath:
     description: 'path for swift output'
     required: false
-    default: '../sdk/swift/Sources/Trinsic'
+    default: '../../../../sdk/sdk/swift/Sources/Trinsic'
 runs:
   using: "composite"
   steps:
