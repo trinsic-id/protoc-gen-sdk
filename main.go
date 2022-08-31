@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/trinsic-id/protoc-gen-sdk/lang_types"
+	"google.golang.org/protobuf/types/pluginpb"
 	"io/ioutil"
 	"path/filepath"
 	"runtime"
@@ -274,7 +275,8 @@ func (m *trinsicModule) generateServices(f pgs.File) {
 }
 
 func main() {
-	pgs.Init(pgs.DebugEnv("DEBUG")).
+	supportOptional := uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
+	pgs.Init(pgs.DebugEnv("DEBUG"), pgs.SupportedFeatures(&supportOptional)).
 		RegisterModule(trinsicDart()).
 		RegisterModule(trinsicPython()).
 		RegisterModule(trinsicGolangInterface()).

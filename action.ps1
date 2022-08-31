@@ -52,3 +52,5 @@ foreach ($Item in Get-ChildItem -Path $ProtoPath -Include *.proto -Recurse)
     Write-Output $Expr
     Invoke-Expression $Expr
 }
+# Plugin will issue a code-1 warning due to generating hidden "template generator files" that don't (and shouldn't) exist. Ignore this.
+Exit 0
