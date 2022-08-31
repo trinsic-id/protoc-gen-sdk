@@ -4,9 +4,15 @@ Set-Location $PSScriptRoot
 protoc --proto_path="../sdk/proto" --go_out="./" "../sdk/proto/services/options/field-options.proto"
 go version
 go mod vendor
-#go build -o "go-plugin/protoc-gen-sdk-windows-amd64.exe"
-go build -o "go-plugin/protoc-gen-sdk-linux-amd64"
 
+if ($IsWindows)
+{
+    go build -o "go-plugin/protoc-gen-sdk-windows-amd64.exe"
+}
+Elseif ($IsLinux)
+{
+    go build -o "go-plugin/protoc-gen-sdk-linux-amd64"
+}
 $RenamePairs = "trust-registry=trustregistry,universal-wallet=wallet,verifiable-credentials=credential,templates=template"
 $ProtoPath = "$PSScriptRoot/../sdk/proto"
 $PythonPath = "$PSScriptRoot/../sdk/python/trinsic"
