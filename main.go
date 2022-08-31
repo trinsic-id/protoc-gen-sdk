@@ -2,6 +2,8 @@ package main
 
 import (
 	"github.com/trinsic-id/protoc-gen-sdk/lang_types"
+	"io/ioutil"
+	"path/filepath"
 	"runtime"
 	"strings"
 	"text/template"
@@ -227,16 +229,31 @@ func (t *trinsicSdk) TargetPath() string {
 	baseName := t.File().InputPath().BaseName()
 	// Handle argument renaming
 	targetName := pgs.Name(t.module.Parameters().StrDefault(baseName, baseName))
-	targetFile := t.module.JoinPath(t.module.Parameters().StrDefault(t.module.targetName, ""), t.module.fileCase(targetName).String()+t.module.fileSuffix+"."+t.module.fileExt)
-
-	// Handle ":" drive on windows
-	targetFile = strings.Replace(targetFile, "?", ":", 1)
+	targetPath := t.module.JoinPath(t.module.Parameters().StrDefault(t.module.targetName, ""), t.module.fileCase(targetName).String()+t.module.fileSuffix+"."+t.module.fileExt)
 	// prepend a "/" on linux
 	if runtime.GOOS == "linux" {
-		targetFile = "/" + targetFile
+		targetPath = "/" + targetPath
 	}
+	// Handle ":" drive on windows
+	targetPath = strings.Replace(targetPath, "?", ":", 1)
+	// Handle case-insensitive target file
+	targetFolder, targetFile := filepath.Split(targetPath)
 	//fmt.Fprintln(os.Stderr, "Target file="+targetFile)
-	return targetFile
+	//fmt.Fprintln(os.Stderr, "Target folder="+targetFolder)
+	fileInfos, err := ioutil.ReadDir(targetFolder)
+	if err != nil {
+		return ""
+	}
+
+	for _, info := range fileInfos {
+		if strings.ToLower(info.Name()) == strings.ToLower(targetFile) {
+			targetFile = info.Name()
+			break
+		}
+	}
+	targetPath = filepath.Join(targetFolder, targetFile)
+	//fmt.Fprintln(os.Stderr, "Target path="+targetPath)
+	return targetPath
 }
 
 func (t *trinsicSdk) Module() *trinsicModule {
@@ -264,7 +281,7 @@ func main() {
 		RegisterModule(trinsicGolangImplementation()).
 		RegisterModule(trinsicDotnet()).
 		RegisterModule(trinsicTypescript()).
-		RegisterModule(trinsicSwift()).
+		// TODO - RegisterModule(trinsicSwift()).
 		RegisterModule(trinsicJava()).
 		RegisterModule(trinsicKotlin()).
 		RegisterModule(trinsicRuby()).
