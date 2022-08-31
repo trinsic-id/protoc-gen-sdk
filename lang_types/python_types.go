@@ -3,8 +3,6 @@ package lang_types
 import (
 	"fmt"
 	pgs "github.com/lyft/protoc-gen-star"
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
 	"strings"
 )
 
@@ -14,7 +12,7 @@ func PythonMessageType(entity EntityWithParent) string {
 	ok := true
 	for ok {
 		name := outer.Name().String()
-		names = append([]string{cases.Title(language.AmericanEnglish).String(name)}, names...)
+		names = append([]string{strings.Title(name)}, names...)
 		outer, ok = outer.Parent().(pgs.Message)
 	}
 	return fmt.Sprintf("%s", strings.Join(names, "."))
