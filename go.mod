@@ -1,6 +1,6 @@
 module github.com/trinsic-id/protoc-gen-sdk
 
-go 1.19
+go 1.17
 
 require (
 	github.com/golang/protobuf v1.5.2
