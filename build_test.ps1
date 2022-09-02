@@ -22,7 +22,8 @@ $GolangPath = "$PSScriptRoot/../sdk/go/services"
 $TypescriptPath = "$PSScriptRoot/../sdk/web/src"
 $JavaKotlinPath = "$PSScriptRoot/../sdk/java/src/main/java/trinsic/services"
 $RubyPath = "$PSScriptRoot/../sdk/ruby/lib/services"
-$SwiftPath = "$PSScriptRoot/../sdk/swift/Sources/Trinsic"
+#$SwiftPath = "$PSScriptRoot/../sdk/swift/Sources/Trinsic"
+$SwiftPath = "***SKIP***"
 
 ./action.ps1 `
     -ProtoPath $ProtoPath `
