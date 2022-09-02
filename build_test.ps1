@@ -1,7 +1,7 @@
 Set-Location $PSScriptRoot
 
 # Compile in the `SdkTemplateOption` in `field-options.proto`
-protoc --proto_path="$PSScriptRoot/../sdk/proto" --go_out="$PSScriptRoot/" "$PSScriptRoot/../sdk/proto/services/options/field-options.proto"
+protoc --proto_path="../sdk/proto" --go_out="./" "../sdk/proto/services/options/field-options.proto"
 go version
 go mod vendor
 
@@ -22,7 +22,8 @@ $GolangPath = "$PSScriptRoot/../sdk/go/services"
 $TypescriptPath = "$PSScriptRoot/../sdk/web/src"
 $JavaKotlinPath = "$PSScriptRoot/../sdk/java/src/main/java/trinsic/services"
 $RubyPath = "$PSScriptRoot/../sdk/ruby/lib/services"
-$SwiftPath = "$PSScriptRoot/../sdk/swift/Sources/Trinsic"
+#$SwiftPath = "$PSScriptRoot/../sdk/swift/Sources/Trinsic"
+$SwiftPath = "***SKIP***"
 
 ./action.ps1 `
     -ProtoPath $ProtoPath `

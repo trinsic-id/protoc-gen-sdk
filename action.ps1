@@ -10,7 +10,7 @@ $GolangPath = (Resolve-Path $GolangPath).Path.Replace(":","?")
 $TypescriptPath = (Resolve-Path $TypescriptPath).Path.Replace(":","?")
 $JavaKotlinPath = (Resolve-Path $JavaKotlinPath).Path.Replace(":","?")
 $RubyPath = (Resolve-Path $RubyPath).Path.Replace(":","?")
-$SwiftPath = (Resolve-Path $SwiftPath).Path.Replace(":","?")
+#$SwiftPath = (Resolve-Path $SwiftPath).Path.Replace(":","?")
 
 
 $PythonArg = "python_path=${PythonPath}"
