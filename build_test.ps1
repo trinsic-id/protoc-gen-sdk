@@ -1,7 +1,7 @@
 Set-Location $PSScriptRoot
 
 # Compile in the `SdkTemplateOption` in `field-options.proto`
-protoc --proto_path="../sdk/proto" --go_out="./" "../sdk/proto/services/options/field-options.proto"
+protoc --proto_path="$PSScriptRoot/../sdk/proto" --go_out="$PSScriptRoot/" "$PSScriptRoot/../sdk/proto/services/options/field-options.proto"
 go version
 go mod vendor
 
