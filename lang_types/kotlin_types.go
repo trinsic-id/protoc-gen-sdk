@@ -25,8 +25,8 @@ func KotlinMethodReturnType(method pgs.Method) string {
 
 func KotlinDocComment(method pgs.Method) string {
 	commentLines := deleteEmpty(strings.Split(method.SourceCodeInfo().LeadingComments(), "\n"))
-	if len(commentLines) == 0 {
-		return ""
+	if len(commentLines) <= 1 {
+		return fmt.Sprintf("/**%s */", strings.Join(commentLines, ""))
 	}
 	return fmt.Sprintf(" /** %s\n*/", strings.Join(commentLines, "\n* "))
 }
@@ -57,7 +57,7 @@ func KotlinMethodArguments(method pgs.Method) string {
 	if SdkNoArguments(method) {
 		return ""
 	} else {
-		return fmt.Sprintf("%s request", MethodParamType(method))
+		return fmt.Sprintf("request: %s", MethodParamType(method))
 	}
 }
 

@@ -28,8 +28,8 @@ func PythonMethodReturnType(method pgs.Method) string {
 
 func PythonDocComment(method pgs.Method) string {
 	commentLines := deleteEmpty(strings.Split(method.SourceCodeInfo().LeadingComments(), "\n"))
-	if len(commentLines) == 0 {
-		return "\"\"\" \"\"\""
+	if len(commentLines) <= 1 {
+		return fmt.Sprintf("\"\"\" %s \"\"\"", strings.Join(commentLines, ""))
 	}
 	return fmt.Sprintf("\"\"\"\n       %s\n        \"\"\"", strings.Join(commentLines, "\n        "))
 }
