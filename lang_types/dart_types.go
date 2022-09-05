@@ -46,7 +46,7 @@ func DartBuildMetadata(method pgs.Method) string {
 	if SdkAnonymous(method) {
 		s = "()"
 	}
-	return "buildMetadata" + s
+	return "await buildMetadata" + s
 }
 
 func DartMethodArguments(method pgs.Method) string {
