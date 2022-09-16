@@ -21,6 +21,7 @@ type trinsicModule struct {
 	fileExt    string
 	targetName string
 	fileSuffix string
+	// TODO - Support generating the file path as a function
 }
 
 func trinsicDart() *trinsicModule {
@@ -79,6 +80,18 @@ func trinsicDotnet() *trinsicModule {
 		fileCase:   pgs.Name.UpperCamelCase,
 		fileExt:    "cs",
 		targetName: "dotnet_path",
+		fileSuffix: "Service",
+	}
+}
+
+func trinsicDotnetBff() *trinsicModule {
+	funcs := getTemplateFuncs()
+	return &trinsicModule{
+		ModuleBase: &pgs.ModuleBase{},
+		serviceTpl: template.Must(template.New("dotnetBffService").Funcs(funcs).Parse(lang_types.DotnetBFFServiceTpl)),
+		fileCase:   pgs.Name.UpperCamelCase,
+		fileExt:    "cs",
+		targetName: "dotnetbff_path",
 		fileSuffix: "Service",
 	}
 }
@@ -164,6 +177,8 @@ func getTemplateFuncs() map[string]interface{} {
 		"DotnetMethodParamType":      lang_types.DotnetMethodParamType,
 		"DotnetMethodArguments":      lang_types.DotnetMethodArguments,
 		"DotnetDefaultRequestObject": lang_types.DotnetDefaultRequestObject,
+
+		"DotnetBffMethodArguments": lang_types.DotnetBffMethodArguments,
 
 		"GolangDocComment":           lang_types.GoDocComment,
 		"GolangBuildMetadata":        lang_types.GolangBuildMetadata,
@@ -297,6 +312,7 @@ func (m *trinsicModule) generateServices(f pgs.File) {
 }
 
 func main() {
+	// TODO - Support only registering the required modules.
 	supportOptional := uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
 	pgs.Init(pgs.DebugEnv("DEBUG"), pgs.SupportedFeatures(&supportOptional)).
 		RegisterModule(trinsicDart()).
@@ -304,6 +320,7 @@ func main() {
 		RegisterModule(trinsicGolangInterface()).
 		RegisterModule(trinsicGolangImplementation()).
 		RegisterModule(trinsicDotnet()).
+		RegisterModule(trinsicDotnetBff()).
 		RegisterModule(trinsicTypescript()).
 		// TODO - RegisterModule(trinsicSwift()).
 		RegisterModule(trinsicJava()).
