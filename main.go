@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"github.com/trinsic-id/protoc-gen-sdk/lang_types"
 	"google.golang.org/protobuf/types/pluginpb"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -290,7 +292,7 @@ func (t *trinsicSdk) TargetPath() string {
 		}
 	}
 	targetPath = filepath.Join(targetFolder, targetFile)
-	//fmt.Fprintln(os.Stderr, "Target path="+targetPath)
+	fmt.Fprintln(os.Stderr, "Target path="+targetPath)
 	return targetPath
 }
 
@@ -299,6 +301,12 @@ func (t *trinsicSdk) Module() *trinsicModule {
 }
 
 func (m *trinsicModule) generateServices(f pgs.File) {
+	targetPath := m.Parameters().Str(m.targetName)
+	fmt.Fprintf(os.Stderr, "Generate: %v\n", targetPath)
+	if strings.Contains(targetPath, "***SKIP***") {
+		fmt.Fprintf(os.Stderr, "Skipping: %v\n", m.targetName)
+		return
+	}
 	baseName := f.InputPath().BaseName()
 	templateFile := baseName + m.serviceTpl.Name() + "_service.template_" + m.fileExt
 
@@ -316,16 +324,16 @@ func main() {
 	supportOptional := uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
 	pgs.Init(pgs.DebugEnv("DEBUG"), pgs.SupportedFeatures(&supportOptional)).
 		RegisterModule(trinsicDart()).
-		RegisterModule(trinsicPython()).
-		RegisterModule(trinsicGolangInterface()).
-		RegisterModule(trinsicGolangImplementation()).
 		RegisterModule(trinsicDotnet()).
 		RegisterModule(trinsicDotnetBff()).
-		RegisterModule(trinsicTypescript()).
-		// TODO - RegisterModule(trinsicSwift()).
+		RegisterModule(trinsicGolangInterface()).
+		RegisterModule(trinsicGolangImplementation()).
 		RegisterModule(trinsicJava()).
 		RegisterModule(trinsicKotlin()).
+		RegisterModule(trinsicPython()).
 		RegisterModule(trinsicRuby()).
+		// TODO - RegisterModule(trinsicSwift()).
+		RegisterModule(trinsicTypescript()).
 		RegisterPostProcessor(applyTemplateFiles()).
 		Render()
 }

@@ -14,15 +14,15 @@ param(
 Set-Location $PSScriptRoot
 
 $ProtoPath = (Resolve-Path $ProtoPath).Path
-$PythonPath = (Resolve-Path $PythonPath).Path.Replace(":","?")
-$DartPath = (Resolve-Path $DartPath).Path.Replace(":","?")
-$DotnetPath = (Resolve-Path $DotnetPath).Path.Replace(":","?")
-$DotnetBffPath = (Resolve-Path $DotnetBffPath).Path.Replace(":","?")
-$GolangPath = (Resolve-Path $GolangPath).Path.Replace(":","?")
-$TypescriptPath = (Resolve-Path $TypescriptPath).Path.Replace(":","?")
-$JavaKotlinPath = (Resolve-Path $JavaKotlinPath).Path.Replace(":","?")
-$RubyPath = (Resolve-Path $RubyPath).Path.Replace(":","?")
-#$SwiftPath = (Resolve-Path $SwiftPath).Path.Replace(":","?")
+$PythonPath = (Resolve-Path $PythonPath)?.Path?.Replace(":","?") ?? "***SKIP***"
+$DartPath = (Resolve-Path $DartPath)?.Path?.Replace(":","?") ?? "***SKIP***"
+$DotnetPath = (Resolve-Path $DotnetPath)?.Path?.Replace(":","?") ?? "***SKIP***"
+$DotnetBffPath = (Resolve-Path $DotnetBffPath)?.Path?.Replace(":","?") ?? "***SKIP***"
+$GolangPath = (Resolve-Path $GolangPath)?.Path?.Replace(":","?") ?? "***SKIP***"
+$TypescriptPath = (Resolve-Path $TypescriptPath)?.Path?.Replace(":","?") ?? "***SKIP***"
+$JavaKotlinPath = (Resolve-Path $JavaKotlinPath)?.Path?.Replace(":","?") ?? "***SKIP***"
+$RubyPath = (Resolve-Path $RubyPath)?.Path?.Replace(":","?") ?? "***SKIP***"  ?? "***SKIP***"
+$SwiftPath = (Resolve-Path $SwiftPath)?.Path?.Replace(":","?")  ?? "***SKIP***"
 
 
 $PythonArg = "python_path=${PythonPath}"
