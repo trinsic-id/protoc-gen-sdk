@@ -320,7 +320,6 @@ func (m *trinsicModule) generateServices(f pgs.File) {
 }
 
 func main() {
-	// TODO - Support only registering the required modules.
 	supportOptional := uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
 	pgs.Init(pgs.DebugEnv("DEBUG"), pgs.SupportedFeatures(&supportOptional)).
 		RegisterModule(trinsicDart()).
@@ -332,7 +331,7 @@ func main() {
 		RegisterModule(trinsicKotlin()).
 		RegisterModule(trinsicPython()).
 		RegisterModule(trinsicRuby()).
-		// TODO - RegisterModule(trinsicSwift()).
+		RegisterModule(trinsicSwift()).
 		RegisterModule(trinsicTypescript()).
 		RegisterPostProcessor(applyTemplateFiles()).
 		Render()
