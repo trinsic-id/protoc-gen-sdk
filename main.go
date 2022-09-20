@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"github.com/trinsic-id/protoc-gen-sdk/lang_types"
 	"google.golang.org/protobuf/types/pluginpb"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -21,6 +23,7 @@ type trinsicModule struct {
 	fileExt    string
 	targetName string
 	fileSuffix string
+	// TODO - Support generating the file path as a function
 }
 
 func trinsicDart() *trinsicModule {
@@ -79,6 +82,18 @@ func trinsicDotnet() *trinsicModule {
 		fileCase:   pgs.Name.UpperCamelCase,
 		fileExt:    "cs",
 		targetName: "dotnet_path",
+		fileSuffix: "Service",
+	}
+}
+
+func trinsicDotnetBff() *trinsicModule {
+	funcs := getTemplateFuncs()
+	return &trinsicModule{
+		ModuleBase: &pgs.ModuleBase{},
+		serviceTpl: template.Must(template.New("dotnetBffService").Funcs(funcs).Parse(lang_types.DotnetBFFServiceTpl)),
+		fileCase:   pgs.Name.UpperCamelCase,
+		fileExt:    "cs",
+		targetName: "dotnetbff_path",
 		fileSuffix: "Service",
 	}
 }
@@ -164,6 +179,8 @@ func getTemplateFuncs() map[string]interface{} {
 		"DotnetMethodParamType":      lang_types.DotnetMethodParamType,
 		"DotnetMethodArguments":      lang_types.DotnetMethodArguments,
 		"DotnetDefaultRequestObject": lang_types.DotnetDefaultRequestObject,
+
+		"DotnetBffMethodArguments": lang_types.DotnetBffMethodArguments,
 
 		"GolangDocComment":           lang_types.GoDocComment,
 		"GolangBuildMetadata":        lang_types.GolangBuildMetadata,
@@ -275,7 +292,7 @@ func (t *trinsicSdk) TargetPath() string {
 		}
 	}
 	targetPath = filepath.Join(targetFolder, targetFile)
-	//fmt.Fprintln(os.Stderr, "Target path="+targetPath)
+	fmt.Fprintln(os.Stderr, "Target path="+targetPath)
 	return targetPath
 }
 
@@ -284,6 +301,12 @@ func (t *trinsicSdk) Module() *trinsicModule {
 }
 
 func (m *trinsicModule) generateServices(f pgs.File) {
+	targetPath := m.Parameters().Str(m.targetName)
+	fmt.Fprintf(os.Stderr, "Generate: %v\n", targetPath)
+	if strings.Contains(targetPath, "***SKIP***") {
+		fmt.Fprintf(os.Stderr, "Skipping: %v\n", m.targetName)
+		return
+	}
 	baseName := f.InputPath().BaseName()
 	templateFile := baseName + m.serviceTpl.Name() + "_service.template_" + m.fileExt
 
@@ -300,15 +323,16 @@ func main() {
 	supportOptional := uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
 	pgs.Init(pgs.DebugEnv("DEBUG"), pgs.SupportedFeatures(&supportOptional)).
 		RegisterModule(trinsicDart()).
-		RegisterModule(trinsicPython()).
+		RegisterModule(trinsicDotnet()).
+		RegisterModule(trinsicDotnetBff()).
 		RegisterModule(trinsicGolangInterface()).
 		RegisterModule(trinsicGolangImplementation()).
-		RegisterModule(trinsicDotnet()).
-		RegisterModule(trinsicTypescript()).
-		// TODO - RegisterModule(trinsicSwift()).
 		RegisterModule(trinsicJava()).
 		RegisterModule(trinsicKotlin()).
+		RegisterModule(trinsicPython()).
 		RegisterModule(trinsicRuby()).
+		RegisterModule(trinsicSwift()).
+		RegisterModule(trinsicTypescript()).
 		RegisterPostProcessor(applyTemplateFiles()).
 		Render()
 }

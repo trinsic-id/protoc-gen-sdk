@@ -17,6 +17,10 @@ inputs:
     description: 'path for .NET output'
     required: false
     default: '../../../../sdk/sdk/dotnet/Trinsic'
+  dotnetBffPath:
+    description: 'path for .NET BFF output'
+    required: false
+    default: '***SKIP***'
   dartPath:
     description: 'path for dart output'
     required: false

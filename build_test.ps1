@@ -17,6 +17,7 @@ $RenamePairs = "trust-registry=trustregistry,universal-wallet=wallet,verifiable-
 $ProtoPath = "$PSScriptRoot/../sdk/proto"
 $PythonPath = "$PSScriptRoot/../sdk/python/trinsic"
 $DotnetPath = "$PSScriptRoot/../sdk/dotnet/Trinsic"
+$DotnetBffPath = "$PSScriptRoot/../server/dashboard-service/Services"
 $DartPath = "$PSScriptRoot/../sdk/dart/lib/src"
 $GolangPath = "$PSScriptRoot/../sdk/go/services"
 $TypescriptPath = "$PSScriptRoot/../sdk/web/src"
@@ -30,6 +31,7 @@ $SwiftPath = "***SKIP***"
     -RenamePairs $RenamePairs `
     -PythonPath $PythonPath `
     -DotnetPath $DotnetPath `
+    -DotnetBffPath $DotnetBffPath `
     -DartPath $DartPath `
     -GolangPath $GolangPath `
     -TypescriptPath $TypescriptPath `

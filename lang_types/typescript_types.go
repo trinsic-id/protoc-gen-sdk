@@ -47,16 +47,16 @@ func TypescriptAwait(method pgs.Method) string {
 func TypescriptMethodType(message pgs.Message, streaming bool) string {
 	t := TypescriptMessageType(message)
 	if streaming {
-		return fmt.Sprintf("Promise<AsyncIterable<%s>>", t)
+		return fmt.Sprintf("Promise<AsyncIterable<proto.%s>>", t)
 	} else {
-		return fmt.Sprintf("Promise<%s>", t)
+		return fmt.Sprintf("Promise<proto.%s>", t)
 	}
 }
 
 func TypescriptBuildMetadata(method pgs.Method) string {
 	s := ""
 	if !SdkAnonymous(method) {
-		s = fmt.Sprintf("%s.encode(request).finish()", TypescriptMessageType(method.Input()))
+		s = fmt.Sprintf("proto.%s.encode(request).finish()", TypescriptMessageType(method.Input()))
 	}
 	return fmt.Sprintf("await this.buildMetadata(%s)", s)
 }
@@ -65,13 +65,13 @@ func TypescriptMethodArguments(method pgs.Method) string {
 	if SdkNoArguments(method) {
 		return ""
 	} else {
-		return fmt.Sprintf("request: %s", MethodParamType(method))
+		return fmt.Sprintf("request: proto.%s", MethodParamType(method))
 	}
 }
 
 func TypescriptDefaultRequestObject(method pgs.Method) string {
 	if SdkNoArguments(method) {
-		return fmt.Sprintf("let request = %s.fromPartial({});", MethodParamType(method))
+		return fmt.Sprintf("let request = proto.%s.fromPartial({});", MethodParamType(method))
 	}
 	return ""
 }
