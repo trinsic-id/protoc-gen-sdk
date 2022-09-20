@@ -20,7 +20,7 @@ inputs:
   dotnetBffPath:
     description: 'path for .NET BFF output'
     required: false
-    default: '../../../../server/server/dashboard-service/Services'
+    default: '***SKIP***'
   dartPath:
     description: 'path for dart output'
     required: false
