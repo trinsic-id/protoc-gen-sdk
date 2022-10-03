@@ -17,10 +17,6 @@ inputs:
     description: 'path for .NET output'
     required: false
     default: '../../../../sdk/sdk/dotnet/Trinsic'
-  dotnetBffPath:
-    description: 'path for .NET BFF output'
-    required: false
-    default: '***SKIP***'
   dartPath:
     description: 'path for dart output'
     required: false
@@ -45,6 +41,14 @@ inputs:
     description: 'path for swift output'
     required: false
     default: '../../../../sdk/sdk/swift/Sources/Trinsic'
+  dashboardBffPath:
+    description: 'path for .NET BFF output'
+    required: false
+    default: '***SKIP***'
+  dashboardFrontendPath:
+    description: 'path for typescript dashboard output'
+    required: false
+    default: '***SKIP***'
 runs:
   using: "composite"
   steps:
@@ -61,5 +65,5 @@ runs:
     - id: protocgensdk
       name: Generate template code
       run: |
-        ${{ github.action_path }}\action.ps1 -ProtoPath "${{ inputs.protoPath }}" -RenamePairs "${{ inputs.renamePairs }}" -PythonPath "${{ inputs.pythonPath }}" -DotnetPath "${{ inputs.dotnetPath }}" -DotnetBffPath "${{ inputs.dotnetBffPath }}" -DartPath "${{ inputs.dartPath }}" -GolangPath "${{ inputs.golangPath }}" -TypescriptPath "${{ inputs.typescriptPath }}" -JavaKotlinPath "${{ inputs.javaKotlinPath }}" -RubyPath "${{ inputs.rubyPath }}" -SwiftPath "${{ inputs.swiftPath }}"
+        ${{ github.action_path }}\action.ps1 -ProtoPath "${{ inputs.protoPath }}" -RenamePairs "${{ inputs.renamePairs }}" -PythonPath "${{ inputs.pythonPath }}" -DotnetPath "${{ inputs.dotnetPath }}" -DartPath "${{ inputs.dartPath }}" -GolangPath "${{ inputs.golangPath }}" -TypescriptPath "${{ inputs.typescriptPath }}" -JavaKotlinPath "${{ inputs.javaKotlinPath }}" -RubyPath "${{ inputs.rubyPath }}" -SwiftPath "${{ inputs.swiftPath }}" -DashboardBffPath "${{ inputs.dashboardBffPath }}" -DashboardFrontendPath "${{ inputs.dashboardBffPath }}"
       shell: pwsh
