@@ -61,7 +61,7 @@ runs:
         # github_token: ${{ secrets.GITHUB_TOKEN }}
     - shell: bash
       run: |
-        chmod +x "${{ github.action_path }}/go-plugin/protoc-gen-sdk-linux-amd64"
+        chmod +x "${{ github.action_path }}/go-plugin/protoc-gen-sdk-linux-x64"
     - id: protocgensdk
       name: Generate template code
       run: |
