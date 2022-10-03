@@ -86,18 +86,6 @@ func trinsicDotnet() *trinsicModule {
 	}
 }
 
-func trinsicDotnetBff() *trinsicModule {
-	funcs := getTemplateFuncs()
-	return &trinsicModule{
-		ModuleBase: &pgs.ModuleBase{},
-		serviceTpl: template.Must(template.New("dotnetBffService").Funcs(funcs).Parse(lang_types.DotnetBFFServiceTpl)),
-		fileCase:   pgs.Name.UpperCamelCase,
-		fileExt:    "cs",
-		targetName: "dotnetbff_path",
-		fileSuffix: "Service",
-	}
-}
-
 func trinsicTypescript() *trinsicModule {
 	funcs := getTemplateFuncs()
 	return &trinsicModule{
@@ -158,6 +146,30 @@ func trinsicSwift() *trinsicModule {
 	}
 }
 
+func trinsicDashboardBff() *trinsicModule {
+	funcs := getTemplateFuncs()
+	return &trinsicModule{
+		ModuleBase: &pgs.ModuleBase{},
+		serviceTpl: template.Must(template.New("dashboardBffService").Funcs(funcs).Parse(lang_types.DashboardBFFServiceTpl)),
+		fileCase:   pgs.Name.UpperCamelCase,
+		fileExt:    "cs",
+		targetName: "dashboardbff_path",
+		fileSuffix: "Service",
+	}
+}
+
+func trinsicDashboardFrontend() *trinsicModule {
+	funcs := getTemplateFuncs()
+	return &trinsicModule{
+		ModuleBase: &pgs.ModuleBase{},
+		serviceTpl: template.Must(template.New("dashboardFrontendService").Funcs(funcs).Parse(lang_types.DashboardFrontendServiceTpl)),
+		fileCase:   pgs.Name.UpperCamelCase,
+		fileExt:    "ts",
+		targetName: "dashboardfrontend_path",
+		fileSuffix: "Service",
+	}
+}
+
 func getTemplateFuncs() map[string]interface{} {
 	funcs := map[string]interface{}{
 		"BuildMetadata":       lang_types.BuildMetadata,
@@ -180,7 +192,13 @@ func getTemplateFuncs() map[string]interface{} {
 		"DotnetMethodArguments":      lang_types.DotnetMethodArguments,
 		"DotnetDefaultRequestObject": lang_types.DotnetDefaultRequestObject,
 
-		"DotnetBffMethodArguments": lang_types.DotnetBffMethodArguments,
+		"DashboardBffMethodArguments":       lang_types.DashboardBffMethodArguments,
+		"DashboardFrontendClassDefinition":  lang_types.DashboardFrontendClassDefinition,
+		"DashboardFrontendServicePath":      lang_types.DashboardFrontendServicePath,
+		"DashboardFrontendMethodReturnType": lang_types.DashboardFrontendMethodReturnType,
+		"DashboardFrontendMethodArguments":  lang_types.DashboardFrontendMethodArguments,
+		"DashboardFrontendRequestConstruct": lang_types.DashboardFrontendRequestConstruct,
+		"DashboardFrontendMethodName":       lang_types.DashboardFrontendMethodName,
 
 		"GolangDocComment":           lang_types.GoDocComment,
 		"GolangBuildMetadata":        lang_types.GolangBuildMetadata,
@@ -226,6 +244,7 @@ func getTemplateFuncs() map[string]interface{} {
 		"SwiftBuildMetadata":    lang_types.SwiftBuildMetadata,
 
 		"TypescriptMethodReturnType":     lang_types.TypescriptMethodReturnType,
+		"TypescriptMethodParamType":      lang_types.TypescriptMethodParamType,
 		"TypescriptDocComment":           lang_types.TypescriptDocComment,
 		"TypescriptAsync":                lang_types.TypescriptAsync,
 		"TypescriptAwait":                lang_types.TypescriptAwait,
@@ -324,7 +343,8 @@ func main() {
 	pgs.Init(pgs.DebugEnv("DEBUG"), pgs.SupportedFeatures(&supportOptional)).
 		RegisterModule(trinsicDart()).
 		RegisterModule(trinsicDotnet()).
-		RegisterModule(trinsicDotnetBff()).
+		RegisterModule(trinsicDashboardBff()).
+		RegisterModule(trinsicDashboardFrontend()).
 		RegisterModule(trinsicGolangInterface()).
 		RegisterModule(trinsicGolangImplementation()).
 		RegisterModule(trinsicJava()).
