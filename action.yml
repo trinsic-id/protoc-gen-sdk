@@ -65,5 +65,5 @@ runs:
     - id: protocgensdk
       name: Generate template code
       run: |
-        ${{ github.action_path }}\action.ps1 -ProtoPath "${{ inputs.protoPath }}" -RenamePairs "${{ inputs.renamePairs }}" -PythonPath "${{ inputs.pythonPath }}" -DotnetPath "${{ inputs.dotnetPath }}" -DartPath "${{ inputs.dartPath }}" -GolangPath "${{ inputs.golangPath }}" -TypescriptPath "${{ inputs.typescriptPath }}" -JavaKotlinPath "${{ inputs.javaKotlinPath }}" -RubyPath "${{ inputs.rubyPath }}" -SwiftPath "${{ inputs.swiftPath }}" -DashboardBffPath "${{ inputs.dashboardBffPath }}" -DashboardFrontendPath "${{ inputs.dashboardBffPath }}"
+        ${{ github.action_path }}\action.ps1 -ProtoPath "${{ inputs.protoPath }}" -RenamePairs "${{ inputs.renamePairs }}" -PythonPath "${{ inputs.pythonPath }}" -DotnetPath "${{ inputs.dotnetPath }}" -DartPath "${{ inputs.dartPath }}" -GolangPath "${{ inputs.golangPath }}" -TypescriptPath "${{ inputs.typescriptPath }}" -JavaKotlinPath "${{ inputs.javaKotlinPath }}" -RubyPath "${{ inputs.rubyPath }}" -SwiftPath "${{ inputs.swiftPath }}" -DashboardBffPath "${{ inputs.dashboardBffPath }}" -DashboardFrontendPath "${{ inputs.dashboardFrontendPath }}"
       shell: pwsh
