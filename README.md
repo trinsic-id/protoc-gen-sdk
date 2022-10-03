@@ -14,6 +14,8 @@ go get github.com/trinsic-id/protoc-gen-sdk
 
 > The folder is case-sensitive depending on filesystem, the final file is not due to our use case of "TrustRegistryService" mapping to "trustregistry"
 
+> To skip a target output, provide an output path of `***SKIP***`
+
 ### Usage
 
 See the `build_test.ps1` script for an example of how to build and run the plugin, assuming that [Trinsic SDK](https://github.com/trinsic-id/sdk) is checked out into a parallel directory (`../sdk`).

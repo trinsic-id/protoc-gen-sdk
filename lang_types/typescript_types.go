@@ -23,6 +23,10 @@ func TypescriptMethodReturnType(method pgs.Method) string {
 	return TypescriptMethodType(method.Output(), method.ServerStreaming())
 }
 
+func TypescriptMethodParamType(method pgs.Method) string {
+	return fmt.Sprintf("proto.%s", MethodParamType(method))
+}
+
 func TypescriptDocComment(method pgs.Method) string {
 	commentLines := deleteEmpty(strings.Split(method.SourceCodeInfo().LeadingComments(), "\n"))
 	if len(commentLines) == 0 {
