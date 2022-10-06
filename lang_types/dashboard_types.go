@@ -86,6 +86,9 @@ func getTypescriptProtoType(myType pgs.FieldType) string {
 	if myType.IsRepeated() {
 		arrayPrefix = "[]"
 	}
+	if myType.Field().InOneOf() {
+		arrayPrefix += " | undefined"
+	}
 	if hasType {
 		return baseType + arrayPrefix
 	}
