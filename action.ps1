@@ -42,7 +42,6 @@ $SwiftArg = "swift_path=${SwiftPath}"
 $DashboardBffArg = "dashboardbff_path=${DashboardBffPath}"
 $DashboardFrontendArg = "dashboardfrontend_path=${DashboardFrontendPath}"
 
-# TODO - Support ARM64 identification
 $ProcessorArch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower()
 $PluginPath = Resolve-Path "${PSScriptRoot}/go-plugin/protoc-gen-sdk-$( If ($IsWindows)
 {

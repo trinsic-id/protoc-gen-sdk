@@ -30,7 +30,6 @@ Else
 } )"
 
 go build -o $BuildPath
-echo "Built plugin: ", $BuildPath
 
 
 $RenamePairs = "trust-registry=trustregistry,universal-wallet=wallet,verifiable-credentials=credential,templates=template"
@@ -60,8 +59,8 @@ if ($BuildTarget -eq "sdk")
 }
 elseif ($BuildTarget -eq "server") {
     $ProtoPath = "$PSScriptRoot/../server/proto"
-    $DashboardBffPath = "$PSScriptRoot/../server/dashboard-service/Dashboard/Services"
-    $DashboardFrontendPath = "$PSScriptRoot/../server/dashboard-app/src/app/services"
+    $DashboardBffPath = "$PSScriptRoot/../server/dashboard/service/Dashboard/Services"
+    $DashboardFrontendPath = "$PSScriptRoot/../server/dashboard/app/src/app/services"
 }
 else {
     throw "unsupported build target"
