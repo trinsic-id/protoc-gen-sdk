@@ -8,7 +8,7 @@ inputs:
   renamePairs:
     description: 'Mapping pairs for folder names'
     required: false
-    default: 'trust-registry=trustregistry,universal-wallet=wallet,verifiable-credentials=credential,templates=template'
+    default: 'trust-registry=trustregistry,universal-wallet=wallet,verifiable-credentials=credential,templates=template,access-management=AccessManagement'
   pythonPath:
     description: 'path for python output'
     required: false

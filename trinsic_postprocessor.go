@@ -8,21 +8,22 @@ import (
 	"strings"
 )
 
-type trinsicPostProcessor struct {
+type TrinsicPostProcessor struct {
+	pgs.PostProcessor
 	inputFile  string
 	outputFile string
 }
 
-func (tpp trinsicPostProcessor) Match(a pgs.Artifact) bool {
+func (tpp TrinsicPostProcessor) Match(a pgs.Artifact) bool {
 	switch a.(type) {
-	case pgs.GeneratorTemplateFile:
+	case pgs.CustomTemplateFile:
 		return true
 	default:
 		return false
 	}
 }
 
-func (tpp trinsicPostProcessor) Process(in []byte) ([]byte, error) {
+func (tpp TrinsicPostProcessor) Process(in []byte) ([]byte, error) {
 	// Determine which file it is
 	templateFileString := string(in)
 	templateLines := strings.Split(templateFileString, "\n")
@@ -35,15 +36,15 @@ func (tpp trinsicPostProcessor) Process(in []byte) ([]byte, error) {
 	//fmt.Fprintln(os.Stderr, matches)
 	//fmt.Fprintln(os.Stderr, templateLines)
 	// Write the generated data to the appropriate file
-	err = updateTargetFile(matches[1], templateLines)
+	err = tpp.updateTargetFile(matches[1], templateLines)
 	if err != nil {
 		return nil, err
 	}
 
-	return in, nil
+	return []byte{}, nil
 }
 
-func updateTargetFile(targetPath string, templateLines []string) error {
+func (tpp TrinsicPostProcessor) updateTargetFile(targetPath string, templateLines []string) error {
 	//fmt.Fprintf(os.Stderr, "Target file: %s\n", targetPath)
 	fileBytes, err := os.ReadFile(targetPath)
 	if err != nil {
@@ -86,4 +87,4 @@ func updateTargetFile(targetPath string, templateLines []string) error {
 	return nil
 }
 
-func applyTemplateFiles() pgs.PostProcessor { return trinsicPostProcessor{} }
+func applyTemplateFiles() pgs.PostProcessor { return TrinsicPostProcessor{} }

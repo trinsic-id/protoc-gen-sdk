@@ -5,8 +5,8 @@ protoc --proto_path="../sdk/proto" --go_out="./" "../sdk/proto/services/options/
 go version
 go mod vendor
 
-# TODO - Support server work vs sdk work
-$BuildTarget = "server"  # "sdk"
+# Support server work vs sdk work
+$BuildTarget = "sdk"  # "sdk"
 
 $ProcessorArch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower()
 $BuildPath = "go-plugin/protoc-gen-sdk-$( If ($IsWindows)
@@ -32,7 +32,7 @@ Else
 go build -o $BuildPath
 
 
-$RenamePairs = "trust-registry=trustregistry,universal-wallet=wallet,verifiable-credentials=credential,templates=template"
+$RenamePairs = "trust-registry=trustregistry,universal-wallet=wallet,verifiable-credentials=credential,templates=template,access-management=AccessManagement"
 
 # Default to doing nothing
 $PythonPath = "***SKIP***"

@@ -47,7 +47,7 @@ func GoDocComment(method pgs.Method) string {
 }
 
 func GoStructPointer(method pgs.Method) string {
-	serviceLowerName := lastPackageNamePart(method)
+	serviceLowerName := method.Service().Name().LowerCamelCase().String()
 	return fmt.Sprintf("%s *%sBase", GolangStructPointerVar(method), serviceLowerName)
 }
 
