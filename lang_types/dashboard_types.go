@@ -119,8 +119,8 @@ export async function {{ DashboardFrontendMethodName . }}({{ DashboardFrontendMe
             data: encodedRequest,
         });
         const decodedResponse = {{DashboardFrontendMethodReturnType .}}.decode(
-            response.data,
-            response.data.length
+            response.data!,
+            response.data!.length
         );
 
         return decodedResponse;
