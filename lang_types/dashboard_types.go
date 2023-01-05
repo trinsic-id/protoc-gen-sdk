@@ -125,9 +125,8 @@ export async function {{ DashboardFrontendMethodName . }}({{ DashboardFrontendMe
 
         return decodedResponse;
     } catch (error) {
-        errorHandler(error);
-        // TODO: dispatch error
-        return {{DashboardFrontendMethodReturnType .}}.fromPartial({});
+        console.error(error);
+        throw 
     }
 }
 {{ end }}{{ end }}{{ end }}
