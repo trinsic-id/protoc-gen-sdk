@@ -126,7 +126,7 @@ export async function {{ DashboardFrontendMethodName . }}({{ DashboardFrontendMe
         return decodedResponse;
     } catch (error) {
         console.error(error);
-        throw 
+        throw (error);
     }
 }
 {{ end }}{{ end }}{{ end }}
