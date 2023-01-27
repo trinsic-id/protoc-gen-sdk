@@ -6,7 +6,7 @@ go version
 go mod vendor
 
 # Support server work vs sdk work
-$BuildTarget = "server"  # "sdk"
+$BuildTarget = "server" # "sdk"
 
 $ProcessorArch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower()
 $BuildPath = "go-plugin/protoc-gen-sdk-$( If ($IsWindows)
@@ -32,12 +32,13 @@ Else
 go build -o $BuildPath
 
 
-$RenamePairs = "trust-registry=trustregistry,universal-wallet=wallet,verifiable-credentials=credential,templates=template,access-management=AccessManagement"
+$RenamePairs = "trust-registry=trustregistry,universal-wallet=wallet,verifiable-credentials=credential,templates=template,access-management=AccessManagement,file-management=FileManagement"
 
 # Default to doing nothing
 $PythonPath = "***SKIP***"
 $DotnetPath = "***SKIP***"
 $DashboardBffPath = "***SKIP***"
+$DashboardFrontendPath = "***SKIP***"
 $DartPath = "***SKIP***"
 $GolangPath = "***SKIP***"
 $TypescriptPath = "***SKIP***"
