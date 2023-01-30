@@ -58,6 +58,24 @@ func SdkAnonymous(method pgs.Method) bool {
 	return false
 }
 
+func SdkExperimental(method pgs.Method) bool {
+	optValue, _ := proto.GetExtension(method.Descriptor().GetOptions(), options.E_SdkTemplateOption)
+	if optValue != nil {
+		templateOption := optValue.(*options.SdkTemplateOption)
+		return templateOption.GetExperimental()
+	}
+	return false
+}
+
+func SdkDeprecated(method pgs.Method) bool {
+	optValue, _ := proto.GetExtension(method.Descriptor().GetOptions(), options.E_SdkTemplateOption)
+	if optValue != nil {
+		templateOption := optValue.(*options.SdkTemplateOption)
+		return templateOption.GetDeprecated()
+	}
+	return false
+}
+
 func SdkNoArguments(method pgs.Method) bool {
 	optValue, _ := proto.GetExtension(method.Descriptor().GetOptions(), options.E_SdkTemplateOption)
 	if optValue != nil {
@@ -76,4 +94,15 @@ func BuildMetadata(method pgs.Method, async bool) string {
 		return "await BuildMetadataAsync" + s
 	}
 	return "BuildMetadata" + s
+}
+
+func GetAnnotatedComment(method pgs.Method) []string {
+	var annotationComments []string
+	if SdkExperimental(method) {
+		annotationComments = append(annotationComments, "This method is EXPERIMENTAL")
+	}
+	if SdkDeprecated(method) {
+		annotationComments = append(annotationComments, "This method is DEPRECATED")
+	}
+	return annotationComments
 }

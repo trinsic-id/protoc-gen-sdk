@@ -29,6 +29,7 @@ func DotnetMethodReturnType(method pgs.Method) string {
 
 func DotnetDocComment(method pgs.Method) string {
 	commentLines := deleteEmpty(strings.Split(method.SourceCodeInfo().LeadingComments(), "\n"))
+	commentLines = append(GetAnnotatedComment(method), commentLines...)
 	if len(commentLines) == 0 {
 		return ""
 	}

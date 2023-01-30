@@ -28,6 +28,7 @@ func PythonMethodReturnType(method pgs.Method) string {
 
 func PythonDocComment(method pgs.Method) string {
 	commentLines := deleteEmpty(strings.Split(method.SourceCodeInfo().LeadingComments(), "\n"))
+	commentLines = append(GetAnnotatedComment(method), commentLines...)
 	if len(commentLines) <= 1 {
 		return fmt.Sprintf("\"\"\" %s \"\"\"", strings.Join(commentLines, ""))
 	}
