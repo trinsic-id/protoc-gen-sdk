@@ -77,6 +77,7 @@ func GetTemplateFuncs() map[string]interface{} {
 		"SwiftAsync":            SwiftAsync,
 		"SwiftAwait":            SwiftAwait,
 		"SwiftBuildMetadata":    SwiftBuildMetadata,
+		"SwiftAnnotations":      SwiftAnnotations,
 
 		"TypescriptMethodReturnType":     TypescriptMethodReturnType,
 		"TypescriptMethodParamType":      TypescriptMethodParamType,
