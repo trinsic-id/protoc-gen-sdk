@@ -12,6 +12,7 @@ func GetTemplateFuncs() map[string]interface{} {
 		"DartMethodArguments":      DartMethodArguments,
 		"DartDefaultRequestObject": DartDefaultRequestObject,
 		"DartDocComment":           DartDocComment,
+		"DartAnnotations":          DartAnnotations,
 		"DartAsync":                DartAsync,
 		"DartAwait":                DartAwait,
 		"DartBuildMetadata":        DartBuildMetadata,
@@ -21,6 +22,7 @@ func GetTemplateFuncs() map[string]interface{} {
 		"DotnetMethodParamType":      DotnetMethodParamType,
 		"DotnetMethodArguments":      DotnetMethodArguments,
 		"DotnetDefaultRequestObject": DotnetDefaultRequestObject,
+		"DotnetAnnotations":          DotnetAnnotations,
 
 		"DashboardBffMethodArguments":       DashboardBffMethodArguments,
 		"DashboardFrontendClassDefinition":  DashboardFrontendClassDefinition,
@@ -47,10 +49,12 @@ func GetTemplateFuncs() map[string]interface{} {
 		"JavaMethodParamType":        JavaMethodParamType,
 		"JavaMethodArguments":        JavaMethodArguments,
 		"JavaDefaultRequestObject":   JavaDefaultRequestObject,
+		"JavaAnnotations":            JavaAnnotations,
 		"KotlinMethodReturnType":     KotlinMethodReturnType,
 		"KotlinDocComment":           KotlinDocComment,
 		"KotlinAsync":                KotlinAsync,
 		"KotlinAwait":                KotlinAwait,
+		"KotlinAnnotations":          KotlinAnnotations,
 		"KotlinMethodArguments":      KotlinMethodArguments,
 		"KotlinDefaultRequestObject": KotlinDefaultRequestObject,
 
@@ -59,6 +63,7 @@ func GetTemplateFuncs() map[string]interface{} {
 		"PythonBuildMetadata":        PythonBuildMetadata,
 		"PythonMethodArguments":      PythonMethodArguments,
 		"PythonDefaultRequestObject": PythonDefaultRequestObject,
+		"PythonAnnotations":          PythonAnnotations,
 
 		"RubyMethodReturnType":     RubyMethodReturnType,
 		"RubyDocComment":           RubyDocComment,
