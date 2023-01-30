@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/golang/protobuf v1.5.2
-	github.com/lyft/protoc-gen-star v0.6.2
+	github.com/lyft/protoc-gen-star/v2 v2.0.1
 	github.com/lyft/protoc-gen-star/v2 v2.0.1
 	golang.org/x/text v0.6.0
 	google.golang.org/protobuf v1.28.1
