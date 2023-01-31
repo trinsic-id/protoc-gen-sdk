@@ -40,11 +40,16 @@ func GoMethodParamType(method pgs.Method) string {
 
 func GoDocComment(method pgs.Method) string {
 	commentLines := deleteEmpty(strings.Split(method.SourceCodeInfo().LeadingComments(), "\n"))
-	if SdkDeprecated(method) {
-		commentLines = append([]string{"Deprecated: This method is deprecated"}, commentLines...)
-	} else if SdkExperimental(method) {
-		commentLines = append([]string{"Deprecated: This method is experimental"}, commentLines...)
+
+	isDep, msgDep := SdkDeprecated(method)
+	isExp, msgExp := SdkExperimental(method)
+	if isDep {
+		commentLines = append([]string{fmt.Sprintf("Deprecated: %s", msgDep)}, commentLines...)
 	}
+	if isExp {
+		commentLines = append([]string{fmt.Sprintf("Deprecated: %s", msgExp)}, commentLines...)
+	}
+
 	if len(commentLines) == 0 {
 		return ""
 	}

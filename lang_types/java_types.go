@@ -85,10 +85,14 @@ func JavaDefaultRequestObject(method pgs.Method) string {
 	return ""
 }
 func JavaAnnotations(method pgs.Method) string {
-	if SdkDeprecated(method) {
-		return "@Deprecated"
+	isDep, msgDep := SdkDeprecated(method)
+	isExp, msgExp := SdkExperimental(method)
+	if isDep {
+		return fmt.Sprintf("@Deprecated(since = \"%s\")", msgDep)
 	}
-	// TODO - Support experimental
+	if isExp {
+		return fmt.Sprintf("@Deprecated(since = \"%s\")", msgExp)
+	}
 	return ""
 }
 

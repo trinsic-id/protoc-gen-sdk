@@ -59,10 +59,13 @@ func PythonDefaultRequestObject(method pgs.Method) string {
 }
 
 func PythonAnnotations(method pgs.Method) string {
-	if SdkDeprecated(method) {
-		return "@deprecation.deprecated(details=\"This method is deprecated\")"
-	} else if SdkExperimental(method) {
-		return "@deprecation.deprecated(details=\"This method is experimental\")"
+	isDep, msgDep := SdkDeprecated(method)
+	isExp, msgExp := SdkExperimental(method)
+	if isDep {
+		return fmt.Sprintf("@deprecation.deprecated(details=\"%s\")", msgDep)
+	}
+	if isExp {
+		return fmt.Sprintf("@deprecation.deprecated(details=\"%s\")", msgExp)
 	}
 	return ""
 }

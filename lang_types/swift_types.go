@@ -68,10 +68,13 @@ func SwiftBuildMetadata(method pgs.Method) string {
 }
 
 func SwiftAnnotations(method pgs.Method) string {
-	if SdkDeprecated(method) {
-		return "@available(*, deprecated, message: \"This method is deprecated\")"
-	} else if SdkExperimental(method) {
-		return "@available(*, deprecated, message: \"This method is experimental\")"
+	isDep, msgDep := SdkDeprecated(method)
+	isExp, msgExp := SdkExperimental(method)
+	if isDep {
+		return fmt.Sprintf("@available(*, deprecated, message: \"%s\")", msgDep)
+	}
+	if isExp {
+		return fmt.Sprintf("@available(*, deprecated, message: \"%s\")", msgExp)
 	}
 	return ""
 }

@@ -63,7 +63,7 @@ func SdkExperimental(method pgs.Method) (bool, string) {
 	if optValue != nil {
 		templateOption := optValue.(*options.SdkTemplateOption)
 		msg := templateOption.GetExperimental().GetMessage()
-		if len(msg) == 0 {
+		if len(strings.TrimSpace(msg)) == 0 {
 			msg = "This method is experimental"
 		}
 		return templateOption.GetExperimental().GetActive(), msg
@@ -76,7 +76,7 @@ func SdkDeprecated(method pgs.Method) (bool, string) {
 	if optValue != nil {
 		templateOption := optValue.(*options.SdkTemplateOption)
 		msg := templateOption.GetDeprecated().GetMessage()
-		if len(msg) == 0 {
+		if len(strings.TrimSpace(msg)) == 0 {
 			msg = "This method is deprecated"
 		}
 		return templateOption.GetDeprecated().GetActive(), msg

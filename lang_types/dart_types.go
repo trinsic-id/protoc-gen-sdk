@@ -65,10 +65,13 @@ func DartDefaultRequestObject(method pgs.Method) string {
 	return ""
 }
 func DartAnnotations(method pgs.Method) string {
-	if SdkDeprecated(method) {
-		return "@Deprecated('This method is deprecated')"
-	} else if SdkExperimental(method) {
-		return "@Deprecated('This method is experimental')"
+	isDep, msgDep := SdkDeprecated(method)
+	isExp, msgExp := SdkExperimental(method)
+	if isDep {
+		return fmt.Sprintf("@Deprecated('%s')", msgDep)
+	}
+	if isExp {
+		return fmt.Sprintf("@Deprecated('%s')", msgExp)
 	}
 	return ""
 }

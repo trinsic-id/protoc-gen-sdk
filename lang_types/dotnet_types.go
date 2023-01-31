@@ -68,12 +68,14 @@ func DotnetDefaultRequestObject(method pgs.Method) string {
 	return ""
 }
 func DotnetAnnotations(method pgs.Method) string {
-	if SdkDeprecated(method) {
-		return "[Obsolete(\"This method is deprecated\")]"
-	} else if SdkExperimental(method) {
-		return "[Obsolete(\"This method is experimental\")]"
+	isDep, msgDep := SdkDeprecated(method)
+	isExp, msgExp := SdkExperimental(method)
+	if isDep {
+		return fmt.Sprintf("[Obsolete(\"%s\")]", msgDep)
 	}
-	// TODO - Support experimental
+	if isExp {
+		return fmt.Sprintf("[Obsolete(\"%s\")]", msgExp)
+	}
 	return ""
 }
 
