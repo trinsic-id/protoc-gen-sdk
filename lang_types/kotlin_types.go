@@ -70,10 +70,15 @@ func KotlinDefaultRequestObject(method pgs.Method) string {
 }
 
 func KotlinAnnotations(method pgs.Method) string {
-	if SdkDeprecated(method) {
-		return "@Deprecated"
+	isDep, msgDep := SdkDeprecated(method)
+	isExp, msgExp := SdkDeprecated(method)
+	if isDep {
+		return fmt.Sprintf("@Deprecated(\"%s\")", msgDep)
 	}
-	// TODO - Support experimental
+	if isExp {
+		// TODO - Support experimental
+		return fmt.Sprintf("@Deprecated(\"%s\")", msgExp)
+	}
 	return ""
 }
 

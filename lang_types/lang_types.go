@@ -58,22 +58,30 @@ func SdkAnonymous(method pgs.Method) bool {
 	return false
 }
 
-func SdkExperimental(method pgs.Method) bool {
+func SdkExperimental(method pgs.Method) (bool, string) {
 	optValue, _ := proto.GetExtension(method.Descriptor().GetOptions(), options.E_SdkTemplateOption)
 	if optValue != nil {
 		templateOption := optValue.(*options.SdkTemplateOption)
-		return templateOption.GetExperimental()
+		msg := templateOption.GetExperimental().GetMessage()
+		if len(msg) == 0 {
+			msg = "This method is experimental"
+		}
+		return templateOption.GetExperimental().GetActive(), msg
 	}
-	return false
+	return false, ""
 }
 
-func SdkDeprecated(method pgs.Method) bool {
+func SdkDeprecated(method pgs.Method) (bool, string) {
 	optValue, _ := proto.GetExtension(method.Descriptor().GetOptions(), options.E_SdkTemplateOption)
 	if optValue != nil {
 		templateOption := optValue.(*options.SdkTemplateOption)
-		return templateOption.GetDeprecated()
+		msg := templateOption.GetDeprecated().GetMessage()
+		if len(msg) == 0 {
+			msg = "This method is deprecated"
+		}
+		return templateOption.GetDeprecated().GetActive(), msg
 	}
-	return false
+	return false, ""
 }
 
 func SdkNoArguments(method pgs.Method) bool {
@@ -98,11 +106,13 @@ func BuildMetadata(method pgs.Method, async bool) string {
 
 func GetAnnotatedComment(method pgs.Method) []string {
 	var annotationComments []string
-	if SdkExperimental(method) {
-		annotationComments = append(annotationComments, "This method is EXPERIMENTAL")
+	isExperimental, experimentMessage := SdkExperimental(method)
+	isDeprecated, deprecatedMessage := SdkDeprecated(method)
+	if isExperimental {
+		annotationComments = append(annotationComments, experimentMessage)
 	}
-	if SdkDeprecated(method) {
-		annotationComments = append(annotationComments, "This method is DEPRECATED")
+	if isDeprecated {
+		annotationComments = append(annotationComments, deprecatedMessage)
 	}
 	return annotationComments
 }
