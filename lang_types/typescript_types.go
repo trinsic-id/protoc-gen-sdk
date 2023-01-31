@@ -29,6 +29,14 @@ func TypescriptMethodParamType(method pgs.Method) string {
 
 func TypescriptDocComment(method pgs.Method) string {
 	commentLines := deleteEmpty(strings.Split(method.SourceCodeInfo().LeadingComments(), "\n"))
+	isDep, msgDep := SdkDeprecated(method)
+	isExp, msgExp := SdkExperimental(method)
+	if isDep {
+		commentLines = append(commentLines, fmt.Sprintf("@deprecated %s", msgDep))
+	}
+	if isExp {
+		commentLines = append(commentLines, fmt.Sprintf("@deprecated %s", msgExp))
+	}
 	if len(commentLines) == 0 {
 		return ""
 	}
