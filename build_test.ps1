@@ -32,7 +32,7 @@ Else
 go build -o $BuildPath
 
 
-$RenamePairs = "trust-registry=trustregistry,universal-wallet=wallet,verifiable-credentials=credential,templates=template,access-management=AccessManagement,file-management=FileManagement"
+$RenamePairs = "trust-registry=trustregistry,universal-wallet=wallet,verifiable-credentials=credential,templates=template,access-management=access_management,file-management=file_management"
 
 # Default to doing nothing
 $PythonPath = "***SKIP***"
