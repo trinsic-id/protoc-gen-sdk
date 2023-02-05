@@ -40,7 +40,7 @@ inputs:
   swiftPath:
     description: 'path for swift output'
     required: false
-    default: '../../../../sdk/sdk/swift/Sources/Trinsic'
+    default: '***SKIP***'
   dashboardBffPath:
     description: 'path for .NET BFF output'
     required: false

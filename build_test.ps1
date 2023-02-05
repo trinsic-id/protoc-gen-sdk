@@ -6,7 +6,7 @@ go version
 go mod vendor
 
 # Support server work vs sdk work
-$BuildTarget = "sdk" # "server" # "sdk"
+$BuildTarget = "sdk-swift" # "server" # "sdk"
 
 $ProcessorArch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower()
 $BuildPath = "go-plugin/protoc-gen-sdk-$( If ($IsWindows)
@@ -56,14 +56,20 @@ if ($BuildTarget -eq "sdk")
     $TypescriptPath = "$PSScriptRoot/../sdk/web/src"
     $JavaKotlinPath = "$PSScriptRoot/../sdk/java/src/main/java/trinsic/services"
     $RubyPath = "$PSScriptRoot/../sdk/ruby/lib/services"
+}
+elseif ($BuildTarget -eq "sdk-swift")
+{
+    $ProtoPath = "$PSScriptRoot/../sdk-swift/proto"
     $SwiftPath = "$PSScriptRoot/../sdk-swift/Sources/Trinsic"
 }
-elseif ($BuildTarget -eq "server") {
+elseif ($BuildTarget -eq "server")
+{
     $ProtoPath = "$PSScriptRoot/../server/proto"
     $DashboardBffPath = "$PSScriptRoot/../server/dashboard/service/Dashboard/Services"
     $DashboardFrontendPath = "$PSScriptRoot/../server/dashboard/app/src/app/services"
 }
-else {
+else
+{
     throw "unsupported build target"
 }
 

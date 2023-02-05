@@ -42,7 +42,7 @@ func (t *TrinsicSdkTemplateArtifact) File() pgs.File {
 
 func renderFilePath(targetPath string) string {
 	// prepend a "/" on linux
-	if runtime.GOOS == "linux" {
+	if runtime.GOOS == "linux" || runtime.GOOS == "darwin" {
 		targetPath = "/" + targetPath
 	}
 	// Handle ":" drive on windows
