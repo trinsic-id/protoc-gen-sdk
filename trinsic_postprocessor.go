@@ -4,6 +4,7 @@ import (
 	"fmt"
 	pgs "github.com/lyft/protoc-gen-star"
 	"os"
+	"path"
 	"regexp"
 	"strings"
 )
@@ -71,6 +72,16 @@ func (tpp TrinsicPostProcessor) updateTargetFile(targetPath string, templateLine
 			newLines = append(newLines, fileLines[idx+1:]...)
 		}
 	}
+
+	// TODO - Refactor this behavior?
+	if path.Ext(targetPath) == ".md" {
+		fmt.Fprintf(os.Stderr, "Correcting ``` escapement in file:%s\n", targetPath)
+		// Handle the ``` issue
+		for idx, line := range newLines {
+			newLines[idx] = strings.ReplaceAll(line, "'''", "```")
+		}
+	}
+
 	// If we didn't find anything, don't write anything
 	if len(newLines) == 0 {
 		fmt.Fprintln(os.Stderr, "No target comments found for file: "+targetPath)

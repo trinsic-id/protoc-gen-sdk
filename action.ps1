@@ -10,6 +10,8 @@ param(
     [Parameter()][string]$RubyPath,
     [Parameter()][string]$SwiftPath,
 
+    [Parameter()][string]$DocsPath,
+
     [Parameter()][string]$DashboardBffPath,
     [Parameter()][string]$DashboardFrontendPath
     )
@@ -23,11 +25,12 @@ $DotnetPath = (Resolve-Path $DotnetPath)?.Path?.Replace(":","?") ?? "***SKIP***"
 $GolangPath = (Resolve-Path $GolangPath)?.Path?.Replace(":","?") ?? "***SKIP***"
 $TypescriptPath = (Resolve-Path $TypescriptPath)?.Path?.Replace(":","?") ?? "***SKIP***"
 $JavaKotlinPath = (Resolve-Path $JavaKotlinPath)?.Path?.Replace(":","?") ?? "***SKIP***"
-$RubyPath = (Resolve-Path $RubyPath)?.Path?.Replace(":","?") ?? "***SKIP***"  ?? "***SKIP***"
+$RubyPath = "***SKIP***" # (Resolve-Path $RubyPath)?.Path?.Replace(":","?") ?? "***SKIP***"  ?? "***SKIP***"
 $SwiftPath = "***SKIP***" # TODO - Enable swift separately (Resolve-Path $SwiftPath)?.Path?.Replace(":","?")  ?? "***SKIP***"
 
 $DashboardBffPath = (Resolve-Path $DashboardBffPath)?.Path?.Replace(":","?") ?? "***SKIP***"
 $DashboardFrontendPath = (Resolve-Path $DashboardFrontendPath)?.Path?.Replace(":","?") ?? "***SKIP***"
+$DocsPath = (Resolve-Path $DocsPath)?.Path?.Replace(":","?") ?? "***SKIP***"
 
 
 $PythonArg = "python_path=${PythonPath}"
@@ -38,6 +41,8 @@ $TypescriptArg = "typescript_path=${TypescriptPath}"
 $JavaKotlinArg = "javakotlin_path=${JavaKotlinPath}"
 $RubyArg = "ruby_path=${RubyPath}"
 $SwiftArg = "swift_path=${SwiftPath}"
+
+$DocsArg = "docs_path=${DocsPath}"
 
 $DashboardBffArg = "dashboardbff_path=${DashboardBffPath}"
 $DashboardFrontendArg = "dashboardfrontend_path=${DashboardFrontendPath}"
@@ -68,7 +73,7 @@ Write-Output $PluginPath
 foreach ($Item in Get-ChildItem -Path $ProtoPath -Include *.proto -Recurse)
 {
     $File = $Item.FullName
-    $Expr = "protoc --plugin=protoc-gen-trinsic-sdk=${PluginPath} --trinsic-sdk_out=${RenamePairs},${DartArg},${PythonArg},${GolangArg},${TypescriptArg},${DotnetArg},${JavaKotlinArg},${RubyArg},${SwiftArg},${DashboardBffArg},${DashboardFrontendArg}: -I $ProtoPath $File"
+    $Expr = "protoc --plugin=protoc-gen-trinsic-sdk=${PluginPath} --trinsic-sdk_out=${RenamePairs},${DartArg},${PythonArg},${GolangArg},${TypescriptArg},${DotnetArg},${JavaKotlinArg},${RubyArg},${SwiftArg},${DashboardBffArg},${DashboardFrontendArg},${DocsArg}: -I $ProtoPath $File"
     Write-Output $Expr
     Invoke-Expression $Expr
 }

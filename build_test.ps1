@@ -6,7 +6,7 @@ go version
 go mod vendor
 
 # Support server work vs sdk work
-$BuildTarget = "sdk" # "server" # "sdk"
+$BuildTarget = "docs" # "server" # "sdk"
 
 $ProcessorArch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower()
 $BuildPath = "go-plugin/protoc-gen-sdk-$( If ($IsWindows)
@@ -46,8 +46,7 @@ $JavaKotlinPath = "***SKIP***"
 $RubyPath = "***SKIP***"
 $SwiftPath = "***SKIP***"
 
-if ($BuildTarget -eq "sdk")
-{
+if ($BuildTarget -eq "sdk") {
     $ProtoPath = "$PSScriptRoot/../sdk/proto"
     $PythonPath = "$PSScriptRoot/../sdk/python/trinsic"
     $DotnetPath = "$PSScriptRoot/../sdk/dotnet/Trinsic"
@@ -55,13 +54,17 @@ if ($BuildTarget -eq "sdk")
     $GolangPath = "$PSScriptRoot/../sdk/go/services"
     $TypescriptPath = "$PSScriptRoot/../sdk/web/src"
     $JavaKotlinPath = "$PSScriptRoot/../sdk/java/src/main/java/trinsic/services"
-    $RubyPath = "$PSScriptRoot/../sdk/ruby/lib/services"
+#    $RubyPath = "$PSScriptRoot/../sdk/ruby/lib/services"
     $SwiftPath = "$PSScriptRoot/../sdk-swift/Sources/Trinsic"
 }
 elseif ($BuildTarget -eq "server") {
     $ProtoPath = "$PSScriptRoot/../server/proto"
     $DashboardBffPath = "$PSScriptRoot/../server/dashboard/service/Dashboard/Services"
     $DashboardFrontendPath = "$PSScriptRoot/../server/dashboard/app/src/app/services"
+}
+elseif ($BuildTarget -eq "docs") {
+    $ProtoPath = "$PSScriptRoot/../sdk/proto"
+    $DocsPath = "$PSScriptRoot/../sdk/docs/reference/services-generated"
 }
 else {
     throw "unsupported build target"
@@ -79,4 +82,5 @@ else {
     -TypescriptPath $TypescriptPath `
     -JavaKotlinPath $JavaKotlinPath `
     -RubyPath $RubyPath `
-    -SwiftPath $SwiftPath
+    -SwiftPath $SwiftPath `
+    -DocsPath $DocsPath

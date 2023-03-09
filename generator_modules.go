@@ -170,3 +170,15 @@ func trinsicDashboardFrontend() *TrinsicModule {
 		fileSuffix: "Service",
 	}
 }
+
+func trinsicDocs() *TrinsicModule {
+	funcs := lang_types.GetTemplateFuncs()
+	return &TrinsicModule{
+		ModuleBase: &pgs.ModuleBase{},
+		serviceTpl: template.Must(template.New("docsSamples").Funcs(funcs).Parse(lang_types.DocsSampleTpl)),
+		fileCase:   pgs.Name.UpperCamelCase,
+		fileExt:    "md",
+		targetName: "docs_path",
+		fileSuffix: "-service",
+	}
+}
