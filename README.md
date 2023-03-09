@@ -24,6 +24,10 @@ See the `build_test.ps1` script for an example of how to build and run the plugi
 * Rename pairs are there to map service/file names to the expected output. The language type with handle proper casing.
 * To add another language:
   * Add file `lang_types/[LANG NAME]_types.go`
-  * Update the corresponding template `const [LANG NAME]ServiceTpl = ...`
+  * Update the corresponding template `const [LANG NAME]ServiceTpl = \``\\ BEGIN`
+  * The delimiter comment MUST be on the first and last line of the template to prevent recursive generation
   * Create a `trinsicModule` factory function in `main.go` `trinsic[LANG NAME]() *trinsicModule`
   * Register the factory function in `main.go` `func main`
+
+!!! tip "Template"
+    

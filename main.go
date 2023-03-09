@@ -114,6 +114,7 @@ func main() {
 		RegisterModule(trinsicRuby()).
 		RegisterModule(trinsicSwift()).
 		RegisterModule(trinsicTypescript()).
+		RegisterModule(trinsicDocs()).
 		RegisterPostProcessor(applyTemplateFiles()).
 		Render()
 }

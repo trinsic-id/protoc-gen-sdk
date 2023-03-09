@@ -17,6 +17,14 @@ func GetTemplateFuncs() map[string]interface{} {
 		"DartAwait":                DartAwait,
 		"DartBuildMetadata":        DartBuildMetadata,
 
+		"DocsCreateService":   DocsCreateService,
+		"DocsDocComment":      DocsDocComment,
+		"DocsFileNameService": DocsFileNameService,
+		"DocsFileName":        DocsFileName,
+		"DocsMethodName":      DocsMethodName,
+		"DocsMethodTab":       DocsMethodTab,
+		"DocsServiceTab":      DocsServiceTab,
+
 		"DotnetMethodReturnType":     DotnetMethodReturnType,
 		"DotnetDocComment":           DotnetDocComment,
 		"DotnetMethodParamType":      DotnetMethodParamType,
