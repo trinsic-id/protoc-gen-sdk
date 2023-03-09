@@ -6,7 +6,7 @@ require (
 	github.com/golang/protobuf v1.5.3
 	github.com/lyft/protoc-gen-star v0.6.2
 	github.com/lyft/protoc-gen-star/v2 v2.0.1
-	google.golang.org/protobuf v1.28.1
+	google.golang.org/protobuf v1.29.0
 )
 
 require (
