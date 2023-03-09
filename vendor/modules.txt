@@ -1,6 +1,6 @@
 # github.com/davecgh/go-spew v1.1.1
 ## explicit
-# github.com/golang/protobuf v1.5.2
+# github.com/golang/protobuf v1.5.3
 ## explicit; go 1.9
 github.com/golang/protobuf/internal/gengogrpc
 github.com/golang/protobuf/proto
