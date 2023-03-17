@@ -2,7 +2,7 @@ package lang_types
 
 import (
 	"fmt"
-	pgs "github.com/lyft/protoc-gen-star"
+	pgs "github.com/lyft/protoc-gen-star/v2"
 	"strings"
 )
 
