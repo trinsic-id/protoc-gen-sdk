@@ -2,9 +2,9 @@ package lang_types
 
 import (
 	"fmt"
-	"github.com/golang/protobuf/proto"
-	pgs "github.com/lyft/protoc-gen-star"
+	pgs "github.com/lyft/protoc-gen-star/v2"
 	"github.com/trinsic-id/protoc-gen-sdk/services/options"
+	"google.golang.org/protobuf/proto"
 	"strings"
 )
 
@@ -41,7 +41,7 @@ func MethodParamType(method pgs.Method) string {
 }
 
 func SdkTemplateGenerate(method pgs.Method) bool {
-	optValue, _ := proto.GetExtension(method.Descriptor().GetOptions(), options.E_SdkTemplateOption)
+	optValue := proto.GetExtension(method.Descriptor().GetOptions(), options.E_SdkTemplateOption)
 	if optValue != nil {
 		templateOption := optValue.(*options.SdkTemplateOption)
 		return !templateOption.GetIgnore()
@@ -50,7 +50,7 @@ func SdkTemplateGenerate(method pgs.Method) bool {
 }
 
 func SdkAnonymous(method pgs.Method) bool {
-	optValue, _ := proto.GetExtension(method.Descriptor().GetOptions(), options.E_SdkTemplateOption)
+	optValue := proto.GetExtension(method.Descriptor().GetOptions(), options.E_SdkTemplateOption)
 	if optValue != nil {
 		templateOption := optValue.(*options.SdkTemplateOption)
 		return templateOption.GetAnonymous()
@@ -59,7 +59,7 @@ func SdkAnonymous(method pgs.Method) bool {
 }
 
 func SdkExperimental(method pgs.Method) (bool, string) {
-	optValue, _ := proto.GetExtension(method.Descriptor().GetOptions(), options.E_SdkTemplateOption)
+	optValue := proto.GetExtension(method.Descriptor().GetOptions(), options.E_SdkTemplateOption)
 	if optValue != nil {
 		templateOption := optValue.(*options.SdkTemplateOption)
 		msg := templateOption.GetExperimental().GetMessage()
@@ -72,7 +72,7 @@ func SdkExperimental(method pgs.Method) (bool, string) {
 }
 
 func SdkDeprecated(method pgs.Method) (bool, string) {
-	optValue, _ := proto.GetExtension(method.Descriptor().GetOptions(), options.E_SdkTemplateOption)
+	optValue := proto.GetExtension(method.Descriptor().GetOptions(), options.E_SdkTemplateOption)
 	if optValue != nil {
 		templateOption := optValue.(*options.SdkTemplateOption)
 		msg := templateOption.GetDeprecated().GetMessage()
@@ -85,7 +85,7 @@ func SdkDeprecated(method pgs.Method) (bool, string) {
 }
 
 func SdkNoArguments(method pgs.Method) bool {
-	optValue, _ := proto.GetExtension(method.Descriptor().GetOptions(), options.E_SdkTemplateOption)
+	optValue := proto.GetExtension(method.Descriptor().GetOptions(), options.E_SdkTemplateOption)
 	if optValue != nil {
 		templateOption := optValue.(*options.SdkTemplateOption)
 		return templateOption.GetNoArguments()
