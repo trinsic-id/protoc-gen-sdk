@@ -67,13 +67,13 @@ Else
     ''
 } )"
 
-Write-Output $PluginPath
+#Write-Output $PluginPath
 
 foreach ($Item in Get-ChildItem -Path $ProtoPath -Include *.proto -Recurse)
 {
     $File = $Item.FullName
     $Expr = "protoc --plugin=protoc-gen-trinsic-sdk=${PluginPath} --trinsic-sdk_out=${RenamePairs},${DartArg},${PythonArg},${GolangArg},${TypescriptArg},${DotnetArg},${JavaKotlinArg},${RubyArg},${SwiftArg},${DashboardBffArg},${DashboardFrontendArg},${DocsArg}: -I $ProtoPath $File"
-    Write-Output $Expr
+#    Write-Output $Expr
     Invoke-Expression $Expr
 }
 # Plugin will issue a code-1 warning due to generating hidden "template generator files" that don't (and shouldn't) exist. Ignore this.

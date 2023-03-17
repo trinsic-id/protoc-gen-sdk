@@ -24,6 +24,19 @@ type EntityWithParent interface {
 	Parent() pgs.ParentEntity
 }
 
+func DocCreateServiceInjection(service pgs.Service) string {
+	return DocsCreateService(service)
+}
+
+func DocMethodInjection(method pgs.Method) string {
+	return fmt.Sprintf("%s%s() {", method.Service().Name().LowerCamelCase(), method.Name().UpperCamelCase())
+}
+
+func DocMethodInjectionEnd() string {
+	// TODO - Is there a way to easily mark terminators?
+	return "}"
+}
+
 func MessageType(entity EntityWithParent) string {
 	names := make([]string, 0)
 	outer := entity
