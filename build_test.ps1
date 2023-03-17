@@ -6,7 +6,7 @@ go version
 go mod vendor
 
 # Support server work vs sdk work
-$BuildTarget = "sdk" # "server", "sdk", "sdk-swift", "docs"
+$BuildTarget = "sdk" # "server", "sdk", "sdk-swift"
 
 $ProcessorArch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower()
 $BuildPath = "go-plugin/protoc-gen-sdk-$( If ($IsWindows)
@@ -54,6 +54,7 @@ if ($BuildTarget -eq "sdk") {
     $GolangPath = "$PSScriptRoot/../sdk/go/services"
     $TypescriptPath = "$PSScriptRoot/../sdk/web/src"
     $JavaKotlinPath = "$PSScriptRoot/../sdk/java/src/main/java/trinsic/services"
+    $DocsPath = "$PSScriptRoot/../sdk/docs/reference/services"
 #    $RubyPath = "$PSScriptRoot/../sdk/ruby/lib/services"
 }
 elseif ($BuildTarget -eq "sdk-swift")
@@ -66,10 +67,6 @@ elseif ($BuildTarget -eq "server")
     $ProtoPath = "$PSScriptRoot/../server/proto"
     $DashboardBffPath = "$PSScriptRoot/../server/dashboard/service/Dashboard/Services"
     $DashboardFrontendPath = "$PSScriptRoot/../server/dashboard/app/src/app/services"
-}
-elseif ($BuildTarget -eq "docs") {
-    $ProtoPath = "$PSScriptRoot/../sdk/proto"
-    $DocsPath = "$PSScriptRoot/../sdk/docs/reference/services-generated"
 }
 else
 {

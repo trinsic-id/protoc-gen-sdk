@@ -1,51 +1,67 @@
-package main
+package postprocessors
 
 import (
+	"errors"
 	"fmt"
-	pgs "github.com/lyft/protoc-gen-star/v2"
 	"os"
 	"path"
-	"regexp"
+	"path/filepath"
+	"runtime"
 	"strings"
 )
 
-type TrinsicPostProcessor struct {
-	pgs.PostProcessor
-	inputFile  string
-	outputFile string
-}
-
-func (tpp TrinsicPostProcessor) Match(a pgs.Artifact) bool {
-	switch a.(type) {
-	case pgs.CustomTemplateFile:
-		return true
-	default:
-		return false
+func RenderFilePath(targetPath string) string {
+	// prepend a "/" on linux
+	if runtime.GOOS == "linux" || runtime.GOOS == "darwin" {
+		targetPath = "/" + targetPath
 	}
+	// Handle ":" drive on windows
+	targetPath = strings.Replace(targetPath, "?", ":", 1)
+	return targetPath
 }
 
-func (tpp TrinsicPostProcessor) Process(in []byte) ([]byte, error) {
-	// Determine which file it is
-	templateFileString := string(in)
-	templateLines := strings.Split(templateFileString, "\n")
-
-	r, err := regexp.Compile("target: ([\\w\\d\\-\\\\\\/\\.\\:]*)")
+func FindTargetFileCaseInsensitive(targetPath string) string {
+	targetPath = RenderFilePath(targetPath)
+	targetFolder, targetFile := filepath.Split(targetPath)
+	fileInfos, err := os.ReadDir(targetFolder)
 	if err != nil {
-		panic(err)
-	}
-	matches := r.FindStringSubmatch(templateFileString)
-	//fmt.Fprintln(os.Stderr, matches)
-	//fmt.Fprintln(os.Stderr, templateLines)
-	// Write the generated data to the appropriate file
-	err = tpp.updateTargetFile(matches[1], templateLines)
-	if err != nil {
-		return nil, err
+		return ""
 	}
 
-	return []byte{}, nil
+	for _, info := range fileInfos {
+		if strings.ToLower(info.Name()) == strings.ToLower(targetFile) {
+			targetFile = info.Name()
+			break
+		}
+	}
+	targetPath = filepath.Join(targetFolder, targetFile)
+	return targetPath
 }
 
-func (tpp TrinsicPostProcessor) updateTargetFile(targetPath string, templateLines []string) error {
+func AppendTargetFile(targetPath string, appendLines []string) error {
+	//fmt.Fprintf(os.Stderr, "Target file: %s\n", targetPath)
+	fileBytes, err := os.ReadFile(targetPath)
+	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			fileBytes = []byte{}
+		} else {
+			return err
+		}
+	}
+	fileLines := strings.Split(string(fileBytes), "\n")
+	newLines := append(fileLines, appendLines...)
+
+	outputString := strings.Join(newLines, "\n")
+	//fmt.Fprintln(os.Stderr, outputString)
+	err = os.WriteFile(targetPath, []byte(outputString), 0777)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func UpdateTargetFile(targetPath string, templateLines []string) error {
 	//fmt.Fprintf(os.Stderr, "Target file: %s\n", targetPath)
 	fileBytes, err := os.ReadFile(targetPath)
 	if err != nil {
@@ -75,7 +91,7 @@ func (tpp TrinsicPostProcessor) updateTargetFile(targetPath string, templateLine
 
 	// TODO - Refactor this behavior?
 	if path.Ext(targetPath) == ".md" {
-		fmt.Fprintf(os.Stderr, "Correcting ``` escapement in file:%s\n", targetPath)
+		//fmt.Fprintf(os.Stderr, "Correcting ``` escapement in file:%s\n", targetPath)
 		// Handle the ``` issue
 		for idx, line := range newLines {
 			newLines[idx] = strings.ReplaceAll(line, "'''", "```")
@@ -97,5 +113,3 @@ func (tpp TrinsicPostProcessor) updateTargetFile(targetPath string, templateLine
 
 	return nil
 }
-
-func applyTemplateFiles() pgs.PostProcessor { return TrinsicPostProcessor{} }
