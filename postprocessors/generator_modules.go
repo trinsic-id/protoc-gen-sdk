@@ -10,14 +10,15 @@ import (
 
 type TrinsicModule struct {
 	*pgs.ModuleBase
-	ctx         pgsgo.Context
-	ServiceTpl  *template.Template
-	SampleTpl   *template.Template
-	FileCase    func(pgs.Name) pgs.Name
-	FileExt     string
-	TargetName  string
-	FileSuffix  string
-	DocFilePath string
+	ctx               pgsgo.Context
+	ServiceTpl        *template.Template
+	SampleTpl         *template.Template
+	FileCase          func(pgs.Name) pgs.Name
+	FileExt           string
+	TargetName        string
+	ServiceFileSuffix string
+	SampleFileSuffix  string
+	SampleFilePath    string
 }
 
 type ITrinsicModule interface {
@@ -50,18 +51,23 @@ func (m *TrinsicModule) generateServices(f pgs.File) {
 	for _, service := range f.Services() {
 		var sdkData = NewSdkArtifact(f, m, service)
 		var docData = NewDocArtifact(f, m, service)
-		m.AddCustomTemplateFile(sdkData.TargetPath(), m.ServiceTpl, sdkData, os.ModePerm)
-		m.AddCustomTemplateFile(docData.TargetPath(), m.SampleTpl, docData, os.ModePerm)
+		if m.ServiceTpl != nil {
+			m.AddCustomTemplateFile(sdkData.TargetPath(), m.ServiceTpl, sdkData, os.ModePerm)
+		}
+		if m.SampleTpl != nil {
+			m.AddCustomTemplateFile(docData.TargetPath(), m.SampleTpl, docData, os.ModePerm)
+		}
 	}
 }
 
 func (m *TrinsicModule) OutputFileName(baseName string) string {
 	// Handle argument renaming
 	targetName := pgs.Name(m.Parameters().StrDefault(baseName, baseName))
-	return RenderFilePath(m.FileCase(targetName).String() + m.FileSuffix + "." + m.FileExt)
+	return RenderFilePath(m.FileCase(targetName).String() + m.ServiceFileSuffix + "." + m.FileExt)
 }
 
 func (m *TrinsicModule) OutputDocPath(baseName pgs.Name) string {
 	targetName := strings.Replace(baseName.LowerSnakeCase().String(), "_", "", -1)
-	return RenderFilePath(targetName + m.FileSuffix + "_examples" + "." + m.FileExt)
+	targetName = strings.ToLower(targetName)
+	return RenderFilePath(targetName + "_service_examples" + m.SampleFileSuffix + "." + m.FileExt)
 }

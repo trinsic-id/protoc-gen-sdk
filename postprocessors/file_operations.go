@@ -1,6 +1,7 @@
 package postprocessors
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path"
@@ -41,7 +42,11 @@ func AppendTargetFile(targetPath string, appendLines []string) error {
 	//fmt.Fprintf(os.Stderr, "Target file: %s\n", targetPath)
 	fileBytes, err := os.ReadFile(targetPath)
 	if err != nil {
-		return err
+		if errors.Is(err, os.ErrNotExist) {
+			fileBytes = []byte{}
+		} else {
+			return err
+		}
 	}
 	fileLines := strings.Split(string(fileBytes), "\n")
 	newLines := append(fileLines, appendLines...)

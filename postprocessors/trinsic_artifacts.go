@@ -29,7 +29,7 @@ func NewDocArtifact(f pgs.File, m *TrinsicModule, service pgs.Service) *TrinsicD
 }
 
 func (t *TrinsicDocTemplateArtifact) TargetPath() string {
-	targetPath := t.Module.JoinPath(t.Module.Parameters().StrDefault(t.Module.TargetName, ""), t.Module.DocFilePath, t.Module.OutputDocPath(t.Service.Name()))
+	targetPath := t.Module.JoinPath(t.Module.Parameters().StrDefault(t.Module.TargetName, ""), t.Module.SampleFilePath, t.Module.OutputDocPath(t.Service.Name()))
 
 	t.Module.ModuleBase.Debugf("Samples Target Path=%s\n", targetPath)
 	// Handle case-insensitive target file
