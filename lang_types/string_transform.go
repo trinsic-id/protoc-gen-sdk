@@ -7,7 +7,7 @@ import (
 	"unicode/utf8"
 )
 
-// Subset of https://github.com/lyft/protoc-gen-star/blob/master/name.go,
+// Subset of https://github.com/lyft/protoc-gen-star/v2/blob/master/name.go,
 // but without splitting on digits.
 
 func upperCamelCase(s string) string { return transform(s, strings.Title, strings.Title, "") }

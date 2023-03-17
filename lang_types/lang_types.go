@@ -3,7 +3,7 @@ package lang_types
 import (
 	"fmt"
 	"github.com/golang/protobuf/proto"
-	pgs "github.com/lyft/protoc-gen-star"
+	pgs "github.com/lyft/protoc-gen-star/v2"
 	"github.com/trinsic-id/protoc-gen-sdk/services/options"
 	"strings"
 )
