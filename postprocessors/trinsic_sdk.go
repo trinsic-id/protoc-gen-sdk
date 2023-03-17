@@ -1,4 +1,4 @@
-package main
+package postprocessors
 
 import (
 	"fmt"
@@ -9,22 +9,28 @@ import (
 	"strings"
 )
 
-type TrinsicPostProcessor struct {
+type TrinsicSdkPostProcessor struct {
 	pgs.PostProcessor
 	inputFile  string
 	outputFile string
 }
 
-func (tpp TrinsicPostProcessor) Match(a pgs.Artifact) bool {
+func (tpp TrinsicSdkPostProcessor) Match(a pgs.Artifact) bool {
 	switch a.(type) {
-	case pgs.CustomTemplateFile:
+	case CustomSdkTemplateFile:
 		return true
 	default:
 		return false
 	}
 }
 
-func (tpp TrinsicPostProcessor) Process(in []byte) ([]byte, error) {
+type CustomSdkTemplateFile struct {
+	pgs.Artifact
+	pgs.Template
+	TargetFile string
+}
+
+func (tpp TrinsicSdkPostProcessor) Process(in []byte) ([]byte, error) {
 	// Determine which file it is
 	templateFileString := string(in)
 	templateLines := strings.Split(templateFileString, "\n")
@@ -37,7 +43,7 @@ func (tpp TrinsicPostProcessor) Process(in []byte) ([]byte, error) {
 	//fmt.Fprintln(os.Stderr, matches)
 	//fmt.Fprintln(os.Stderr, templateLines)
 	// Write the generated data to the appropriate file
-	err = tpp.updateTargetFile(matches[1], templateLines)
+	err = updateTargetFile(matches[1], templateLines)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +51,7 @@ func (tpp TrinsicPostProcessor) Process(in []byte) ([]byte, error) {
 	return []byte{}, nil
 }
 
-func (tpp TrinsicPostProcessor) updateTargetFile(targetPath string, templateLines []string) error {
+func updateTargetFile(targetPath string, templateLines []string) error {
 	//fmt.Fprintf(os.Stderr, "Target file: %s\n", targetPath)
 	fileBytes, err := os.ReadFile(targetPath)
 	if err != nil {
@@ -98,4 +104,4 @@ func (tpp TrinsicPostProcessor) updateTargetFile(targetPath string, templateLine
 	return nil
 }
 
-func applyTemplateFiles() pgs.PostProcessor { return TrinsicPostProcessor{} }
+func ApplyTemplateFiles() pgs.PostProcessor { return TrinsicSdkPostProcessor{} }

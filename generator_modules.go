@@ -9,22 +9,31 @@ import (
 
 type TrinsicModule struct {
 	*pgs.ModuleBase
-	ctx        pgsgo.Context
-	serviceTpl *template.Template
-	fileCase   func(pgs.Name) pgs.Name
-	fileExt    string
-	targetName string
-	fileSuffix string
+	ctx         pgsgo.Context
+	serviceTpl  *template.Template
+	sampleTpl   *template.Template
+	fileCase    func(pgs.Name) pgs.Name
+	fileExt     string
+	targetName  string
+	fileSuffix  string
+	docFilePath string
 }
 
 type ITrinsicModule interface {
 	OutputFileName(name string) string
+	OutputDocPath(name string) string
 }
 
 func (m *TrinsicModule) OutputFileName(baseName string) string {
 	// Handle argument renaming
 	targetName := pgs.Name(m.Parameters().StrDefault(baseName, baseName))
 	return renderFilePath(m.fileCase(targetName).String() + m.fileSuffix + "." + m.fileExt)
+}
+
+func (m *TrinsicModule) OutputDocPath(baseName string) string {
+	// Handle argument renaming
+	targetName := pgs.Name(m.Parameters().StrDefault(baseName, baseName))
+	return renderFilePath(targetName.LowerSnakeCase().String() + "_examples" + "." + m.fileExt)
 }
 
 func trinsicDart() *TrinsicModule {
@@ -179,6 +188,6 @@ func trinsicDocs() *TrinsicModule {
 		fileCase:   pgs.Name.UpperCamelCase,
 		fileExt:    "md",
 		targetName: "docs_path",
-		fileSuffix: "-service",
+		fileSuffix: "-service-gen",
 	}
 }

@@ -3,6 +3,7 @@ package main
 import (
 	pgs "github.com/lyft/protoc-gen-star"
 	pgsgo "github.com/lyft/protoc-gen-star/lang/go"
+	"github.com/trinsic-id/protoc-gen-sdk/postprocessors"
 	"google.golang.org/protobuf/types/pluginpb"
 	"os"
 	"path/filepath"
@@ -26,6 +27,7 @@ func (m *TrinsicModule) Execute(targets map[string]pgs.File, pkgs map[string]pgs
 
 type TrinsicArtifact interface {
 	File() pgs.File
+	SamplesTargetPath() string
 	TargetPath() string
 	Module() *TrinsicModule
 }
@@ -38,6 +40,27 @@ type TrinsicSdkTemplateArtifact struct {
 
 func (t *TrinsicSdkTemplateArtifact) File() pgs.File {
 	return t.file
+}
+
+func (t *TrinsicSdkTemplateArtifact) TargetPath() string {
+	baseName := t.File().InputPath().BaseName()
+	targetPath := t.module.JoinPath(t.module.Parameters().StrDefault(t.module.targetName, ""), t.module.OutputFileName(baseName))
+
+	// Handle case-insensitive target file
+	return findTargetFileCaseInsensitive(targetPath)
+}
+
+func (t *TrinsicSdkTemplateArtifact) Module() *TrinsicModule {
+	return t.module
+}
+
+func (t *TrinsicSdkTemplateArtifact) SamplesTargetPath() string {
+	// TODO - Handle the documentation location
+	baseName := t.File().InputPath().BaseName()
+	targetPath := t.module.JoinPath(t.module.Parameters().StrDefault(t.module.targetName, ""), t.module.docFilePath, t.module.OutputDocPath(baseName))
+
+	// Handle case-insensitive target file
+	return findTargetFileCaseInsensitive(targetPath)
 }
 
 func renderFilePath(targetPath string) string {
@@ -68,18 +91,6 @@ func findTargetFileCaseInsensitive(targetPath string) string {
 	return targetPath
 }
 
-func (t *TrinsicSdkTemplateArtifact) TargetPath() string {
-	baseName := t.File().InputPath().BaseName()
-	targetPath := t.module.JoinPath(t.module.Parameters().StrDefault(t.module.targetName, ""), t.module.OutputFileName(baseName))
-
-	// Handle case-insensitive target file
-	return findTargetFileCaseInsensitive(targetPath)
-}
-
-func (t *TrinsicSdkTemplateArtifact) Module() *TrinsicModule {
-	return t.module
-}
-
 func (m *TrinsicModule) generateServices(f pgs.File) {
 	targetPath := m.Parameters().Str(m.targetName)
 	m.Debugf("Generate - %v: %v\n", m.targetName, targetPath)
@@ -96,6 +107,12 @@ func (m *TrinsicModule) generateServices(f pgs.File) {
 		}
 		m.Debugf("Target file path: %s\n", sdkInterface.TargetPath())
 		m.AddCustomTemplateFile(sdkInterface.TargetPath(), m.serviceTpl, sdkInterface, os.ModePerm)
+		m.AddGeneratorTemplateAppend(sdkInterface.SamplesTargetPath(), m.sampleTpl, sdkInterface)
+		m.AddArtifact(postprocessors.CustomSdkTemplateFile{
+			Artifact:   nil,
+			Template:   nil,
+			TargetFile: "",
+		})
 	}
 }
 
@@ -115,6 +132,7 @@ func main() {
 		RegisterModule(trinsicSwift()).
 		RegisterModule(trinsicTypescript()).
 		RegisterModule(trinsicDocs()).
-		RegisterPostProcessor(applyTemplateFiles()).
+		RegisterPostProcessor(postprocessors.ApplyTemplateFiles()).
+		RegisterPostProcessor(postprocessors.AppendSampleFiles()).
 		Render()
 }
