@@ -6,7 +6,7 @@ go version
 go mod vendor
 
 # Support server work vs sdk work
-$BuildTarget = "sdk" # "server", "sdk", "sdk-swift"
+$BuildTarget = "docs" # "server", "sdk", "sdk-swift", "docs"
 
 $ProcessorArch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower()
 $BuildPath = "go-plugin/protoc-gen-sdk-$( If ($IsWindows)
@@ -46,7 +46,7 @@ $JavaKotlinPath = "***SKIP***"
 $RubyPath = "***SKIP***"
 $SwiftPath = "***SKIP***"
 
-if ($BuildTarget -eq "sdk") {
+if ($BuildTarget -eq "sdk" -or $BuildTarget -eq "docs") {
     $ProtoPath = "$PSScriptRoot/../sdk/proto"
     $PythonPath = "$PSScriptRoot/../sdk/python/trinsic"
     $DotnetPath = "$PSScriptRoot/../sdk/dotnet/Trinsic"
@@ -86,4 +86,5 @@ else
     -JavaKotlinPath $JavaKotlinPath `
     -RubyPath $RubyPath `
     -SwiftPath $SwiftPath `
-    -DocsPath $DocsPath
+    -DocsPath $DocsPath `
+    -BuildTarget $BuildTarget

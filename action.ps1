@@ -13,7 +13,9 @@ param(
     [Parameter()][string]$DocsPath,
 
     [Parameter()][string]$DashboardBffPath,
-    [Parameter()][string]$DashboardFrontendPath
+    [Parameter()][string]$DashboardFrontendPath,
+
+    [Parameter()][string]$BuildTarget = "sdk"
     )
 
 Set-Location $PSScriptRoot
@@ -46,6 +48,8 @@ $DocsArg = "docs_path=${DocsPath}"
 $DashboardBffArg = "dashboardbff_path=${DashboardBffPath}"
 $DashboardFrontendArg = "dashboardfrontend_path=${DashboardFrontendPath}"
 
+$BuildTargetArg = "build_target=${BuildTarget}"
+
 $ProcessorArch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower()
 $PluginPath = Resolve-Path "${PSScriptRoot}/go-plugin/protoc-gen-sdk-$( If ($IsWindows)
 {
@@ -72,7 +76,7 @@ Else
 foreach ($Item in Get-ChildItem -Path $ProtoPath -Include *.proto -Recurse)
 {
     $File = $Item.FullName
-    $Expr = "protoc --plugin=protoc-gen-trinsic-sdk=${PluginPath} --trinsic-sdk_out=${RenamePairs},${DartArg},${PythonArg},${GolangArg},${TypescriptArg},${DotnetArg},${JavaKotlinArg},${RubyArg},${SwiftArg},${DashboardBffArg},${DashboardFrontendArg},${DocsArg}: -I $ProtoPath $File"
+    $Expr = "protoc --plugin=protoc-gen-trinsic-sdk=${PluginPath} --trinsic-sdk_out=${BuildTargetArg},${RenamePairs},${DartArg},${PythonArg},${GolangArg},${TypescriptArg},${DotnetArg},${JavaKotlinArg},${RubyArg},${SwiftArg},${DashboardBffArg},${DashboardFrontendArg},${DocsArg}: -I $ProtoPath $File"
 #    Write-Output $Expr
     Invoke-Expression $Expr
 }

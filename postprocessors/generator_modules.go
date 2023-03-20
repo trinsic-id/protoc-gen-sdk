@@ -48,13 +48,15 @@ func (m *TrinsicModule) generateServices(f pgs.File) {
 	}
 	targetPath = RenderFilePath(targetPath)
 
+	buildTarget := m.Parameters().StrDefault("build_target", "sdk")
+
 	for _, service := range f.Services() {
 		var sdkData = NewSdkArtifact(f, m, service)
 		var docData = NewDocArtifact(f, m, service)
-		if m.ServiceTpl != nil {
+		if m.ServiceTpl != nil && buildTarget == "sdk" {
 			m.AddCustomTemplateFile(sdkData.TargetPath(), m.ServiceTpl, sdkData, os.ModePerm)
 		}
-		if m.SampleTpl != nil {
+		if m.SampleTpl != nil && buildTarget == "docs" {
 			m.AddCustomTemplateFile(docData.TargetPath(), m.SampleTpl, docData, os.ModePerm)
 		}
 	}
