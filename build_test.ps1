@@ -43,7 +43,6 @@ $DartPath = "***SKIP***"
 $GolangPath = "***SKIP***"
 $TypescriptPath = "***SKIP***"
 $JavaKotlinPath = "***SKIP***"
-$RubyPath = "***SKIP***"
 $SwiftPath = "***SKIP***"
 
 if ($BuildTarget -eq "sdk" -or $BuildTarget -eq "docs") {
@@ -55,22 +54,17 @@ if ($BuildTarget -eq "sdk" -or $BuildTarget -eq "docs") {
     $TypescriptPath = "$PSScriptRoot/../sdk/web/src"
     $JavaKotlinPath = "$PSScriptRoot/../sdk/java/src/main/java/trinsic/services"
     $DocsPath = "$PSScriptRoot/../sdk/docs/reference/services"
-#    $RubyPath = "$PSScriptRoot/../sdk/ruby/lib/services"
 }
-elseif ($BuildTarget -eq "sdk-swift")
+if ($BuildTarget -eq "sdk-swift" -or $BuildTarget -eq "docs")
 {
     $ProtoPath = "$PSScriptRoot/../sdk-swift/proto"
     $SwiftPath = "$PSScriptRoot/../sdk-swift/Sources/Trinsic"
 }
-elseif ($BuildTarget -eq "server")
+if ($BuildTarget -eq "server")
 {
     $ProtoPath = "$PSScriptRoot/../server/proto"
     $DashboardBffPath = "$PSScriptRoot/../server/dashboard/service/Dashboard/Services"
     $DashboardFrontendPath = "$PSScriptRoot/../server/dashboard/app/src/app/services"
-}
-else
-{
-    throw "unsupported build target"
 }
 
 ./action.ps1 `
@@ -84,7 +78,6 @@ else
     -GolangPath $GolangPath `
     -TypescriptPath $TypescriptPath `
     -JavaKotlinPath $JavaKotlinPath `
-    -RubyPath $RubyPath `
     -SwiftPath $SwiftPath `
     -DocsPath $DocsPath `
     -BuildTarget $BuildTarget

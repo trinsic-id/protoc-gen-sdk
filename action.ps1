@@ -7,7 +7,6 @@ param(
     [Parameter()][string]$GolangPath,
     [Parameter()][string]$TypescriptPath,
     [Parameter()][string]$JavaKotlinPath,
-    [Parameter()][string]$RubyPath,
     [Parameter()][string]$SwiftPath,
 
     [Parameter()][string]$DocsPath,
@@ -27,7 +26,7 @@ $DotnetPath = (Resolve-Path $DotnetPath)?.Path?.Replace(":","?") ?? "***SKIP***"
 $GolangPath = (Resolve-Path $GolangPath)?.Path?.Replace(":","?") ?? "***SKIP***"
 $TypescriptPath = (Resolve-Path $TypescriptPath)?.Path?.Replace(":","?") ?? "***SKIP***"
 $JavaKotlinPath = (Resolve-Path $JavaKotlinPath)?.Path?.Replace(":","?") ?? "***SKIP***"
-$RubyPath = "***SKIP***" # (Resolve-Path $RubyPath)?.Path?.Replace(":","?") ?? "***SKIP***"  ?? "***SKIP***"
+$RubyPath = "***SKIP***"
 $SwiftPath = (Resolve-Path $SwiftPath)?.Path?.Replace(":","?")  ?? "***SKIP***"
 
 $DashboardBffPath = (Resolve-Path $DashboardBffPath)?.Path?.Replace(":","?") ?? "***SKIP***"

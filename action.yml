@@ -33,10 +33,6 @@ inputs:
     description: 'path for Java / Kotlin output'
     required: false
     default: '***SKIP***'
-  rubyPath:
-    description: 'path for Ruby output'
-    required: false
-    default: '***SKIP***'
   swiftPath:
     description: 'path for swift output'
     required: false
@@ -72,7 +68,6 @@ runs:
             -GolangPath "${{ inputs.golangPath }}" `
             -TypescriptPath "${{ inputs.typescriptPath }}" `
             -JavaKotlinPath "${{ inputs.javaKotlinPath }}" `
-            -RubyPath "${{ inputs.rubyPath }}" `
             -SwiftPath "${{ inputs.swiftPath }}" `
             -DashboardBffPath "${{ inputs.dashboardBffPath }}" `
             -DashboardFrontendPath "${{ inputs.dashboardFrontendPath }}"`
