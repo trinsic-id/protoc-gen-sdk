@@ -76,6 +76,9 @@ func GetTemplateFuncs() map[string]interface{} {
 		"PythonDefaultRequestObject": PythonDefaultRequestObject,
 		"PythonAnnotations":          PythonAnnotations,
 
+		"PythonDocCreateServiceInjection": PythonDocCreateServiceInjection,
+		"PythonDocMethodInjection":        PythonDocMethodInjection,
+
 		"RubyMethodReturnType":     RubyMethodReturnType,
 		"RubyDocComment":           RubyDocComment,
 		"RubyMethodParamType":      RubyMethodParamType,

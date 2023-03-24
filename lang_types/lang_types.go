@@ -25,7 +25,7 @@ type EntityWithParent interface {
 }
 
 func DocCreateServiceInjection(service pgs.Service) string {
-	return DocsCreateService(service)
+	return fmt.Sprintf("%s() {", DocsCreateService(service))
 }
 
 func DocMethodInjection(method pgs.Method) string {

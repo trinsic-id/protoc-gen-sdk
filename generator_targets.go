@@ -133,7 +133,7 @@ func TrinsicSwift() *tpp.TrinsicModule {
 	return &tpp.TrinsicModule{
 		ModuleBase:        &pgs.ModuleBase{},
 		ServiceTpl:        template.Must(template.New("swiftService").Funcs(funcs).Parse(lang_types.SwiftServiceTpl)),
-		SampleTpl:         template.Must(template.New("golangDocSample").Funcs(funcs).Parse(lang_types.SwiftDocTpl)),
+		SampleTpl:         template.Must(template.New("swiftDocSample").Funcs(funcs).Parse(lang_types.SwiftDocTpl)),
 		FileCase:          pgs.Name.UpperCamelCase,
 		FileExt:           "swift",
 		TargetName:        "swift_path",

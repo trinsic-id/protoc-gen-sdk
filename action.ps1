@@ -7,13 +7,14 @@ param(
     [Parameter()][string]$GolangPath,
     [Parameter()][string]$TypescriptPath,
     [Parameter()][string]$JavaKotlinPath,
-    [Parameter()][string]$RubyPath,
     [Parameter()][string]$SwiftPath,
 
     [Parameter()][string]$DocsPath,
 
     [Parameter()][string]$DashboardBffPath,
-    [Parameter()][string]$DashboardFrontendPath
+    [Parameter()][string]$DashboardFrontendPath,
+
+    [Parameter()][string]$BuildTarget = "sdk"
     )
 
 Set-Location $PSScriptRoot
@@ -25,7 +26,7 @@ $DotnetPath = (Resolve-Path $DotnetPath)?.Path?.Replace(":","?") ?? "***SKIP***"
 $GolangPath = (Resolve-Path $GolangPath)?.Path?.Replace(":","?") ?? "***SKIP***"
 $TypescriptPath = (Resolve-Path $TypescriptPath)?.Path?.Replace(":","?") ?? "***SKIP***"
 $JavaKotlinPath = (Resolve-Path $JavaKotlinPath)?.Path?.Replace(":","?") ?? "***SKIP***"
-$RubyPath = "***SKIP***" # (Resolve-Path $RubyPath)?.Path?.Replace(":","?") ?? "***SKIP***"  ?? "***SKIP***"
+$RubyPath = "***SKIP***"
 $SwiftPath = (Resolve-Path $SwiftPath)?.Path?.Replace(":","?")  ?? "***SKIP***"
 
 $DashboardBffPath = (Resolve-Path $DashboardBffPath)?.Path?.Replace(":","?") ?? "***SKIP***"
@@ -45,6 +46,8 @@ $DocsArg = "docs_path=${DocsPath}"
 
 $DashboardBffArg = "dashboardbff_path=${DashboardBffPath}"
 $DashboardFrontendArg = "dashboardfrontend_path=${DashboardFrontendPath}"
+
+$BuildTargetArg = "build_target=${BuildTarget}"
 
 $ProcessorArch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower()
 $PluginPath = Resolve-Path "${PSScriptRoot}/go-plugin/protoc-gen-sdk-$( If ($IsWindows)
@@ -72,7 +75,7 @@ Else
 foreach ($Item in Get-ChildItem -Path $ProtoPath -Include *.proto -Recurse)
 {
     $File = $Item.FullName
-    $Expr = "protoc --plugin=protoc-gen-trinsic-sdk=${PluginPath} --trinsic-sdk_out=${RenamePairs},${DartArg},${PythonArg},${GolangArg},${TypescriptArg},${DotnetArg},${JavaKotlinArg},${RubyArg},${SwiftArg},${DashboardBffArg},${DashboardFrontendArg},${DocsArg}: -I $ProtoPath $File"
+    $Expr = "protoc --plugin=protoc-gen-trinsic-sdk=${PluginPath} --trinsic-sdk_out=${BuildTargetArg},${RenamePairs},${DartArg},${PythonArg},${GolangArg},${TypescriptArg},${DotnetArg},${JavaKotlinArg},${RubyArg},${SwiftArg},${DashboardBffArg},${DashboardFrontendArg},${DocsArg}: -I $ProtoPath $File"
 #    Write-Output $Expr
     Invoke-Expression $Expr
 }

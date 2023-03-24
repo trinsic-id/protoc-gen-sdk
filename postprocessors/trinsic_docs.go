@@ -36,7 +36,7 @@ func (dpp TrinsicDocsPostProcessor) Process(in []byte) ([]byte, error) {
 	}
 	matches := r.FindStringSubmatch(templateFileString)
 	// Write the generated data to the appropriate file
-	err = AppendTargetFile(matches[1], newLines)
+	err = UpdateTargetFile(matches[1], newLines)
 	if err != nil {
 		return nil, err
 	}
