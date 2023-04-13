@@ -1,21 +1,20 @@
 package lang_types
 
+import "reflect"
+
 func GetTemplateFuncs() map[string]interface{} {
+	// TODO - Is there a way to reflection get all LanguageGenerators?
+	langGenerators := map[string]LanguageGenerator{
+		"Dart":   GetDartGenerator(),
+		"Golang": GetGolangGenerator(),
+	}
+
 	funcs := map[string]interface{}{
 		"BuildMetadata":       BuildMetadata,
 		"MethodIsStreaming":   MethodIsStreaming,
 		"MethodParamType":     MethodParamType,
 		"SdkAnonymous":        SdkAnonymous,
 		"SdkTemplateGenerate": SdkTemplateGenerate,
-
-		"DartMethodReturnType":     DartMethodReturnType,
-		"DartMethodArguments":      DartMethodArguments,
-		"DartDefaultRequestObject": DartDefaultRequestObject,
-		"DartDocComment":           DartDocComment,
-		"DartAnnotations":          DartAnnotations,
-		"DartAsync":                DartAsync,
-		"DartAwait":                DartAwait,
-		"DartBuildMetadata":        DartBuildMetadata,
 
 		"DocsCreateService":         DocsCreateService,
 		"DocCreateServiceInjection": DocCreateServiceInjection,
@@ -42,15 +41,6 @@ func GetTemplateFuncs() map[string]interface{} {
 		"DashboardFrontendMethodArguments":  DashboardFrontendMethodArguments,
 		"DashboardFrontendRequestConstruct": DashboardFrontendRequestConstruct,
 		"DashboardFrontendMethodName":       DashboardFrontendMethodName,
-
-		"GolangDocComment":           GoDocComment,
-		"GolangBuildMetadata":        GolangBuildMetadata,
-		"GolangMethodReturnType":     GoMethodReturnType,
-		"GolangMethodParamType":      GoMethodParamType,
-		"GolangStructPointer":        GoStructPointer,
-		"GolangStructPointerVar":     GolangStructPointerVar,
-		"GolangMethodArguments":      GolangMethodArguments,
-		"GolangDefaultRequestObject": GolangDefaultRequestObject,
 
 		"JavaMethodReturnType":       JavaMethodReturnType,
 		"JavaDocComment":             JavaDocComment,
@@ -101,6 +91,12 @@ func GetTemplateFuncs() map[string]interface{} {
 		"TypescriptBuildMetadata":        TypescriptBuildMetadata,
 		"TypescriptMethodArguments":      TypescriptMethodArguments,
 		"TypescriptDefaultRequestObject": TypescriptDefaultRequestObject,
+	}
+	for langName, generator := range langGenerators {
+		dt := reflect.TypeOf(generator)
+		for i := 0; i < dt.NumMethod(); i++ {
+			funcs[langName+dt.Method(i).Name] = dt.Method(i).Func
+		}
 	}
 	return funcs
 }

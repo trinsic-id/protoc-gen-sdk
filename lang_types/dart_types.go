@@ -7,11 +7,18 @@ import (
 	pgs "github.com/lyft/protoc-gen-star/v2"
 )
 
-func DartMethodReturnType(method pgs.Method) string {
-	return DartMethodType(method.Output(), method.ServerStreaming())
+type DartGenerator struct {
 }
 
-func DartDocComment(method pgs.Method) string {
+func GetDartGenerator() LanguageGenerator {
+	return DartGenerator{}
+}
+
+func (d DartGenerator) MethodReturnType(method pgs.Method) string {
+	return d.MethodType(method.Output(), method.ServerStreaming())
+}
+
+func (d DartGenerator) DocComment(method pgs.Method) string {
 	commentLines := deleteEmpty(strings.Split(method.SourceCodeInfo().LeadingComments(), "\n"))
 	commentLines = append(GetAnnotatedComment(method), commentLines...)
 	if len(commentLines) == 0 {
@@ -20,20 +27,21 @@ func DartDocComment(method pgs.Method) string {
 	return fmt.Sprintf(" /// %s", strings.Join(commentLines, "\n///"))
 }
 
-func DartAsync(method pgs.Method) string {
+func (d DartGenerator) AsyncModifier(method pgs.Method) string {
 	if method.ServerStreaming() {
 		return ""
 	}
 	return "async"
 }
-func DartAwait(method pgs.Method) string {
+
+func (d DartGenerator) AwaitModifier(method pgs.Method) string {
 	if method.ServerStreaming() {
 		return ""
 	}
 	return "await"
 }
 
-func DartMethodType(message pgs.Message, streaming bool) string {
+func (d DartGenerator) MethodType(message pgs.Message, streaming bool) string {
 	t := MessageType(message)
 	if streaming {
 		return fmt.Sprintf("$grpc.ResponseStream<%s>", t)
@@ -42,7 +50,7 @@ func DartMethodType(message pgs.Message, streaming bool) string {
 	}
 }
 
-func DartBuildMetadata(method pgs.Method) string {
+func (d DartGenerator) BuildMetadata(method pgs.Method) string {
 	s := "(request: request)"
 	if SdkAnonymous(method) {
 		s = "()"
@@ -50,7 +58,7 @@ func DartBuildMetadata(method pgs.Method) string {
 	return "await buildMetadata" + s
 }
 
-func DartMethodArguments(method pgs.Method) string {
+func (d DartGenerator) MethodArguments(method pgs.Method) string {
 	if SdkNoArguments(method) {
 		return ""
 	} else {
@@ -58,13 +66,14 @@ func DartMethodArguments(method pgs.Method) string {
 	}
 }
 
-func DartDefaultRequestObject(method pgs.Method) string {
+func (d DartGenerator) DefaultRequestObject(method pgs.Method) string {
 	if SdkNoArguments(method) {
 		return fmt.Sprintf("var request = %s();", MethodParamType(method))
 	}
 	return ""
 }
-func DartAnnotations(method pgs.Method) string {
+
+func (d DartGenerator) Annotations(method pgs.Method) string {
 	isDep, msgDep := SdkDeprecated(method)
 	isExp, msgExp := SdkExperimental(method)
 	if isDep {

@@ -8,6 +8,18 @@ import (
 	"strings"
 )
 
+type LanguageGenerator interface {
+	MethodReturnType(method pgs.Method) string
+	DocComment(method pgs.Method) string
+	AsyncModifier(method pgs.Method) string
+	AwaitModifier(method pgs.Method) string
+	MethodType(message pgs.Message, streaming bool) string
+	BuildMetadata(method pgs.Method) string
+	MethodArguments(method pgs.Method) string
+	DefaultRequestObject(method pgs.Method) string
+	Annotations(method pgs.Method) string
+}
+
 // FieldType intersection between pgs.FieldType and pgs.FieldTypeElem
 type FieldType interface {
 	ProtoType() pgs.ProtoType
