@@ -6,7 +6,7 @@ go version
 go mod vendor
 
 # Support server work vs sdk work
-$BuildTarget = "sdk" # "server", "sdk", "sdk-swift", "docs"
+$BuildTarget = "server" # "server", "sdk", "sdk-swift", "docs"
 
 $ProcessorArch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower()
 $BuildPath = "go-plugin/protoc-gen-sdk-$( If ($IsWindows)
@@ -64,7 +64,8 @@ if ($BuildTarget -eq "server")
 {
     $ProtoPath = "$PSScriptRoot/../server/proto"
     $DashboardBffPath = "$PSScriptRoot/../server/dashboard/service/Dashboard/Services"
-    $DashboardFrontendPath = "$PSScriptRoot/../server/dashboard/app/src/app/services"
+    $DashboardFrontendPath = "$PSScriptRoot/../server/dashboard/app/src/services/Trinsic"
+    $DocsPath = "***SKIP***"
 }
 
 ./action.ps1 `

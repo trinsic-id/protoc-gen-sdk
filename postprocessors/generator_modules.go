@@ -56,6 +56,9 @@ func (m *TrinsicModule) generateServices(f pgs.File) {
 		if m.ServiceTpl != nil && buildTarget == "sdk" {
 			m.AddCustomTemplateFile(sdkData.TargetPath(), m.ServiceTpl, sdkData, os.ModePerm)
 		}
+		if m.ServiceTpl != nil && buildTarget == "server" {
+			m.AddCustomTemplateFile(sdkData.TargetPath(), m.ServiceTpl, sdkData, os.ModePerm)
+		}
 		if m.SampleTpl != nil && buildTarget == "docs" {
 			m.AddCustomTemplateFile(docData.TargetPath(), m.SampleTpl, docData, os.ModePerm)
 		}
