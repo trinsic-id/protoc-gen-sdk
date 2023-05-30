@@ -11,7 +11,6 @@ func main() {
 	pgs.Init(pgs.DebugMode(), pgs.SupportedFeatures(&supportOptional)).
 		RegisterModule(TrinsicDart()).
 		RegisterModule(TrinsicDotnet()).
-		RegisterModule(TrinsicDashboardBff()).
 		RegisterModule(TrinsicDashboardFrontend()).
 		RegisterModule(TrinsicGolangInterface()).
 		RegisterModule(TrinsicGolangImplementation()).

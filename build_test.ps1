@@ -37,7 +37,6 @@ $RenamePairs = "trust-registry=trustregistry,universal-wallet=wallet,verifiable-
 # Default to doing nothing
 $PythonPath = "***SKIP***"
 $DotnetPath = "***SKIP***"
-$DashboardBffPath = "***SKIP***"
 $DashboardFrontendPath = "***SKIP***"
 $DartPath = "***SKIP***"
 $GolangPath = "***SKIP***"
@@ -63,7 +62,6 @@ if ($BuildTarget -eq "sdk-swift" -or $BuildTarget -eq "docs")
 if ($BuildTarget -eq "server")
 {
     $ProtoPath = "$PSScriptRoot/../server/proto"
-    $DashboardBffPath = "$PSScriptRoot/../server/dashboard/service/Dashboard/Services"
     $DashboardFrontendPath = "$PSScriptRoot/../server/dashboard/app/src/services/Trinsic"
     $DocsPath = "***SKIP***"
 }
@@ -73,7 +71,6 @@ if ($BuildTarget -eq "server")
     -RenamePairs $RenamePairs `
     -PythonPath $PythonPath `
     -DotnetPath $DotnetPath `
-    -DashboardBffPath $DashboardBffPath `
     -DashboardFrontendPath $DashboardFrontendPath `
     -DartPath $DartPath `
     -GolangPath $GolangPath `

@@ -37,10 +37,6 @@ inputs:
     description: 'path for swift output'
     required: false
     default: '***SKIP***'
-  dashboardBffPath:
-    description: 'path for .NET BFF output'
-    required: false
-    default: '***SKIP***'
   dashboardFrontendPath:
     description: 'path for typescript dashboard output'
     required: false
@@ -69,7 +65,6 @@ runs:
             -TypescriptPath "${{ inputs.typescriptPath }}" `
             -JavaKotlinPath "${{ inputs.javaKotlinPath }}" `
             -SwiftPath "${{ inputs.swiftPath }}" `
-            -DashboardBffPath "${{ inputs.dashboardBffPath }}" `
             -DashboardFrontendPath "${{ inputs.dashboardFrontendPath }}"`
             -DocsPath "***SKIP***"
       shell: pwsh
