@@ -35,7 +35,6 @@ func GetTemplateFuncs() map[string]interface{} {
 		"DotnetDefaultRequestObject": DotnetDefaultRequestObject,
 		"DotnetAnnotations":          DotnetAnnotations,
 
-		"DashboardBffMethodArguments":       DashboardBffMethodArguments,
 		"DashboardFrontendClassDefinition":  DashboardFrontendClassDefinition,
 		"DashboardFrontendServicePath":      DashboardFrontendServicePath,
 		"DashboardFrontendMethodReturnType": DashboardFrontendMethodReturnType,

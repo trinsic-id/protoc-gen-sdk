@@ -142,18 +142,6 @@ func TrinsicSwift() *tpp.TrinsicModule {
 	}
 }
 
-func TrinsicDashboardBff() *tpp.TrinsicModule {
-	funcs := lang_types.GetTemplateFuncs()
-	return &tpp.TrinsicModule{
-		ModuleBase:        &pgs.ModuleBase{},
-		ServiceTpl:        template.Must(template.New("dashboardBffService").Funcs(funcs).Parse(lang_types.DashboardBFFServiceTpl)),
-		FileCase:          pgs.Name.UpperCamelCase,
-		FileExt:           "cs",
-		TargetName:        "dashboardbff_path",
-		ServiceFileSuffix: "Service",
-	}
-}
-
 func TrinsicDashboardFrontend() *tpp.TrinsicModule {
 	funcs := lang_types.GetTemplateFuncs()
 	return &tpp.TrinsicModule{

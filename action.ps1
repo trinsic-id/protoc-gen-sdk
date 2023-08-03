@@ -11,7 +11,6 @@ param(
 
     [Parameter()][string]$DocsPath,
 
-    [Parameter()][string]$DashboardBffPath,
     [Parameter()][string]$DashboardFrontendPath,
 
     [Parameter()][string]$BuildTarget = "sdk"
@@ -29,7 +28,6 @@ $JavaKotlinPath = (Resolve-Path $JavaKotlinPath)?.Path?.Replace(":","?") ?? "***
 $RubyPath = "***SKIP***"
 $SwiftPath = (Resolve-Path $SwiftPath)?.Path?.Replace(":","?")  ?? "***SKIP***"
 
-$DashboardBffPath = (Resolve-Path $DashboardBffPath)?.Path?.Replace(":","?") ?? "***SKIP***"
 $DashboardFrontendPath = (Resolve-Path $DashboardFrontendPath)?.Path?.Replace(":","?") ?? "***SKIP***"
 $DocsPath = (Resolve-Path $DocsPath)?.Path?.Replace(":","?") ?? "***SKIP***"
 
@@ -44,7 +42,6 @@ $SwiftArg = "swift_path=${SwiftPath}"
 
 $DocsArg = "docs_path=${DocsPath}"
 
-$DashboardBffArg = "dashboardbff_path=${DashboardBffPath}"
 $DashboardFrontendArg = "dashboardfrontend_path=${DashboardFrontendPath}"
 
 $BuildTargetArg = "build_target=${BuildTarget}"
@@ -75,7 +72,7 @@ Else
 foreach ($Item in Get-ChildItem -Path $ProtoPath -Include *.proto -Recurse)
 {
     $File = $Item.FullName
-    $Expr = "protoc --plugin=protoc-gen-trinsic-sdk=${PluginPath} --trinsic-sdk_out=${BuildTargetArg},${RenamePairs},${DartArg},${PythonArg},${GolangArg},${TypescriptArg},${DotnetArg},${JavaKotlinArg},${RubyArg},${SwiftArg},${DashboardBffArg},${DashboardFrontendArg},${DocsArg}: -I $ProtoPath $File"
+    $Expr = "protoc --plugin=protoc-gen-trinsic-sdk=${PluginPath} --trinsic-sdk_out=${BuildTargetArg},${RenamePairs},${DartArg},${PythonArg},${GolangArg},${TypescriptArg},${DotnetArg},${JavaKotlinArg},${RubyArg},${SwiftArg},${DashboardFrontendArg},${DocsArg}: -I $ProtoPath $File"
 #    Write-Output $Expr
     Invoke-Expression $Expr
 }
