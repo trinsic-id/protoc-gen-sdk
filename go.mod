@@ -3,7 +3,7 @@ module github.com/trinsic-id/protoc-gen-sdk
 go 1.19
 
 require (
-	github.com/lyft/protoc-gen-star/v2 v2.0.1
+	github.com/lyft/protoc-gen-star/v2 v2.0.3
 	google.golang.org/protobuf v1.31.0
 )
 
